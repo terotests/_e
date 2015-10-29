@@ -853,10 +853,6 @@
         return this;
       };
 
-      if (_myTrait_.__traitInit && !_myTrait_.hasOwnProperty("__traitInit")) _myTrait_.__traitInit = _myTrait_.__traitInit.slice();
-      if (!_myTrait_.__traitInit) _myTrait_.__traitInit = [];
-      _myTrait_.__traitInit.push(function (t) {});
-
       /**
        * @param float t
        */
@@ -2313,7 +2309,7 @@
         if (_elemInit) return;
         _elemInit = true;
 
-        var es = ["a", "b", "h1", "h2", "h3", "h4", "h5", "h6", "button", "checkbox", "div", "form", "img", "input", "label", "li", "ol", "p", "pre", "span", "strong", "table", "textarea", "ul", "video"];
+        var es = ["a", "b", "h1", "h2", "h3", "h4", "h5", "h6", "button", "checkbox", "div", "form", "img", "input", "label", "li", "ol", "p", "pre", "span", "strong", "table", "textarea", "ul", "video", "tspan", "svg", "rect", "path", "line", "image", "g", "filter", "feOffset", "feMergeNode", "feMerge", "feGaussianBlur", "defs", "circle"];
 
         es.forEach(function (n) {
           _myTrait_[n] = function (className, attrs, c, d, e) {
@@ -3537,135 +3533,8 @@
        * @param float className
        * @param float attrs
        */
-      _myTrait_.circle = function (className, attrs) {
-        var el = this.shortcutFor("circle", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.defs = function (className, attrs) {
-        var el = this.shortcutFor("defs", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.feGaussianBlur = function (className, attrs) {
-        var el = this.shortcutFor("feGaussianBlur", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.feMerge = function (className, attrs) {
-        var el = this.shortcutFor("feMerge", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.feMergeNode = function (className, attrs) {
-        var el = this.shortcutFor("feMergeNode", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.feOffset = function (className, attrs) {
-        var el = this.shortcutFor("feOffset", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.filter = function (className, attrs) {
-        var el = this.shortcutFor("filter", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.g = function (className, attrs) {
-        var el = this.shortcutFor("g", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.image = function (className, attrs) {
-        var el = this.shortcutFor("image", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.line = function (className, attrs) {
-        var el = this.shortcutFor("line", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.path = function (className, attrs) {
-        var el = this.shortcutFor("path", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.rect = function (className, attrs) {
-        var el = this.shortcutFor("rect", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       * @param float none
-       */
-      _myTrait_.svg = function (className, attrs, none) {
-        var el = this.shortcutFor("svg", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
       _myTrait_.svg_text = function (className, attrs) {
         var el = this.shortcutFor("text", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.tspan = function (className, attrs) {
-        var el = this.shortcutFor("tspan", className, attrs);
         return el;
       };
     })(this);
