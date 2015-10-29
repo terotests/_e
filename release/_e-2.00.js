@@ -2682,34 +2682,6 @@
       };
 
       /**
-       * @param float name
-       */
-      _myTrait_.getClipboard = function (name) {
-        return clipBoard(name);
-      };
-
-      /**
-       * @param float withName
-       */
-      _myTrait_.localStore = function (withName) {
-
-        var cb = clipBoard(withName);
-
-        var val = cb.fromClipboard();
-        if (val) {
-          this.val(val);
-        }
-
-        var me = this;
-        this.on("value", function () {
-          cb.toClipboard(me.val());
-        });
-
-        // toClipboard
-        return this;
-      };
-
-      /**
        * @param Array list
        */
       _myTrait_.options = function (list) {
@@ -2754,19 +2726,7 @@
             if (document.body) {
               document.body.appendChild(this._dataList._dom);
             }
-          } else {}
-          /*
-          <label>Your favorite fruit:
-          <datalist id="fruits">
-          <option value="Blackberry">Blackberry</option>
-          <option value="Blackcurrant">Blackcurrant</option>
-          <option value="Blueberry">Blueberry</option>
-          <!-- … -->
-          </datalist>
-          If other, please specify:
-          <input type="text" name="fruit" list="fruits">
-          </label>
-          */
+          }
         }
         return this;
       };
@@ -2826,6 +2786,7 @@
 
     (function (_myTrait_) {
       var _shInit;
+      var _elemInit;
 
       // Initialize static variables here...
 
@@ -2842,12 +2803,22 @@
       };
 
       /**
-       * @param float className
-       * @param float attrs
+       * Some of the methods have shortcuts
+       * @param float t
        */
-      _myTrait_.a = function (className, attrs) {
-        var el = this.shortcutFor("a", className, attrs);
-        return el;
+      _myTrait_._initShortcuts = function (t) {
+        // _elemNames
+        if (_elemInit) return;
+        _elemInit = true;
+        var _elemNames = ["a", "b", "h1", "h2", "h3", "h4", "h5", "h6", "button", "checkbox", "div", "form", "img", "input", "label", "li", "ol", "p", "pre", "span", "strong", "table", "textarea", "ul", "video"];
+
+        for (var n in _elemNames) {
+          if (_elemNames.hasOwnProperty(n)) {
+            _myTrait_[n] = function (n, className, attrs) {
+              return this.shortcutFor(n, className, attrs);
+            };
+          }
+        }
       };
 
       /**
@@ -2913,24 +2884,6 @@
        * @param float className
        * @param float attrs
        */
-      _myTrait_.b = function (className, attrs) {
-        var el = this.shortcutFor("b", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.button = function (className, attrs) {
-        var el = this.shortcutFor("button", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
       _myTrait_.canvas = function (className, attrs) {
         var el = this.shortcutFor("canvas", className, attrs);
         el._canvas = true;
@@ -2965,15 +2918,6 @@
         if (this._dom.getContext) {
           return this._dom.getContext("2d");
         }
-      };
-
-      /**
-       * @param string className
-       * @param float attrs
-       */
-      _myTrait_.div = function (className, attrs) {
-        var el = this.shortcutFor("div", className, attrs);
-        return el;
       };
 
       /**
@@ -3016,192 +2960,11 @@
         return el;
       };
 
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.form = function (className, attrs) {
-        var el = this.shortcutFor("form", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float pixelData
-       */
-      _myTrait_.getPixelFn = function (pixelData) {
-
-        var ctx = this.ctx();
-
-        if (pixelData && pixelData._dom) {
-          ctx = pixelData.ctx();
-          pixelData = ctx.getImageData(0, 0, pixelData._canWidth, pixelData._canWidth);
-        } else {
-          // Get the context...
-          if (!pixelData) pixelData = ctx.getImageData(0, 0, this._canWidth, this._canWidth);
-        }
-
-        var data = pixelData.data;
-
-        return function (x, y) {
-          var index = (x + y * pixelData.width) * 4;
-          return {
-            x: x,
-            y: y,
-            r: data[index + 0],
-            g: data[index + 1],
-            b: data[index + 2],
-            a: data[index + 3]
-          };
-        };
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.h1 = function (className, attrs) {
-        var el = this.shortcutFor("h1", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.h2 = function (className, attrs) {
-        var el = this.shortcutFor("h2", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.h3 = function (className, attrs) {
-        var el = this.shortcutFor("h3", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.h4 = function (className, attrs) {
-        var el = this.shortcutFor("h4", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param String className
-       * @param float attrs
-       */
-      _myTrait_.img = function (className, attrs) {
-        var el = this.shortcutFor("img", className, attrs);
-        return el;
-      };
-
       if (_myTrait_.__traitInit && !_myTrait_.hasOwnProperty("__traitInit")) _myTrait_.__traitInit = _myTrait_.__traitInit.slice();
       if (!_myTrait_.__traitInit) _myTrait_.__traitInit = [];
-      _myTrait_.__traitInit.push(function (t) {});
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.input = function (className, attrs) {
-        var el = this.shortcutFor("input", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.label = function (className, attrs) {
-        var el = this.shortcutFor("label", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.li = function (className, attrs) {
-        var el = this.shortcutFor("li", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.ol = function (className, attrs) {
-        var el = this.shortcutFor("ol", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.p = function (className, attrs) {
-        var el = this.shortcutFor("p", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.pre = function (className, attrs) {
-        var el = this.shortcutFor("pre", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float fn
-       * @param float pixelData
-       * @param bool doNotUpdate
-       */
-      _myTrait_.processPixels = function (fn, pixelData, doNotUpdate) {
-
-        var ctx = this.ctx();
-
-        // Get the context...
-        if (!pixelData) pixelData = ctx.getImageData(0, 0, this._canWidth, this._canHeight);
-
-        var data = pixelData.data;
-        var index = 0;
-        for (var y = 0; y < this._canHeight; y++) {
-          for (var x = 0; x < this._canWidth; x++) {
-            var r = data[index],
-                g = data[index + 1],
-                b = data[index + 2],
-                a = data[index + 3];
-
-            var p = {
-              x: x,
-              y: y,
-              r: r,
-              g: g,
-              b: b,
-              a: a
-            };
-            fn(p);
-            if (p.r != r) data[index] = p.r;
-            if (p.g != g) data[index + 1] = p.g;
-            if (p.b != b) data[index + 2] = p.b;
-            if (p.a != a) data[index + 3] = p.a;
-
-            index += 4;
-          }
-        }
-        if (!doNotUpdate) {
-          console.log(this._canWidth, this._canHeight);
-          ctx.putImageData(pixelData, 0, 0, 0, 0, this._canWidth, this._canHeight);
-        }
-        return pixelData;
-      };
+      _myTrait_.__traitInit.push(function (t) {
+        if (!_elemInit) this._initShortcuts();
+      });
 
       /**
        * @param float params
@@ -3309,15 +3072,6 @@
       };
 
       /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.span = function (className, attrs) {
-        var el = this.shortcutFor("span", className, attrs);
-        return el;
-      };
-
-      /**
        * @param String src
        */
       _myTrait_.src = function (src) {
@@ -3339,17 +3093,10 @@
           me._imgLoaded = false;
           img.src(src);
           img.on("load", function () {
-
             var im = img._dom;
-
-            //me.width(im.width);
-            //me.height(im.height);
-
             if (!me._canWidth) {
-
               me.q.attr("width", im.width);
               me.q.attr("height", im.height);
-
               me._canWidth = im.width;
               me._canHeight = im.height;
             }
@@ -3367,33 +3114,6 @@
       };
 
       /**
-       * @param String className
-       * @param float attrs
-       */
-      _myTrait_.strong = function (className, attrs) {
-        var el = this.shortcutFor("strong", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param String className
-       * @param float attrs
-       */
-      _myTrait_.table = function (className, attrs) {
-        var el = this.shortcutFor("table", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.textarea = function (className, attrs) {
-        var el = this.shortcutFor("textarea", className, attrs);
-        return el;
-      };
-
-      /**
        * @param float format
        * @param float quality
        */
@@ -3402,24 +3122,6 @@
         if (!quality) quality = 1;
 
         return this._dom.toDataURL(format || "image/png", quality);
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.ul = function (className, attrs) {
-        var el = this.shortcutFor("ul", className, attrs);
-        return el;
-      };
-
-      /**
-       * @param float className
-       * @param float attrs
-       */
-      _myTrait_.video = function (className, attrs) {
-        var el = this.shortcutFor("video", className, attrs);
-        return el;
       };
     })(this);
 
@@ -5632,88 +5334,6 @@
         return me.rgbToYuv(me.toRGB(hexVal));
       };
 
-      /**
-       * @param Object c
-       */
-      _myTrait_.hsvToRgb = function (c) {
-        var r, g, b;
-        var i;
-        var f, p, q, t;
-
-        // Make sure our arguments stay in-range
-        var h = Math.max(0, Math.min(360, c.h));
-        var s = Math.max(0, Math.min(100, c.s));
-        var v = Math.max(0, Math.min(100, c.v));
-
-        // We accept saturation and value arguments from 0 to 100 because that's
-        // how Photoshop represents those values. Internally, however, the
-        // saturation and value are calculated from a range of 0 to 1. We make
-        // That conversion here.
-        s /= 100;
-        v /= 100;
-
-        if (s == 0) {
-          // Achromatic (grey)
-          r = g = b = v;
-          return {
-            r: Math.round(r * 255),
-            g: Math.round(g * 255),
-            b: Math.round(b * 255)
-          };
-        }
-
-        h /= 60; // sector 0 to 5
-        i = Math.floor(h);
-        f = h - i; // factorial part of h
-        p = v * (1 - s);
-        q = v * (1 - s * f);
-        t = v * (1 - s * (1 - f));
-
-        switch (i) {
-          case 0:
-            r = v;
-            g = t;
-            b = p;
-            break;
-
-          case 1:
-            r = q;
-            g = v;
-            b = p;
-            break;
-
-          case 2:
-            r = p;
-            g = v;
-            b = t;
-            break;
-
-          case 3:
-            r = p;
-            g = q;
-            b = v;
-            break;
-
-          case 4:
-            r = t;
-            g = p;
-            b = v;
-            break;
-
-          default:
-            // case 5:
-            r = v;
-            g = p;
-            b = q;
-        }
-
-        return {
-          r: Math.round(r * 255),
-          g: Math.round(g * 255),
-          b: Math.round(b * 255)
-        };
-      };
-
       if (_myTrait_.__traitInit && !_myTrait_.hasOwnProperty("__traitInit")) _myTrait_.__traitInit = _myTrait_.__traitInit.slice();
       if (!_myTrait_.__traitInit) _myTrait_.__traitInit = [];
       _myTrait_.__traitInit.push(function (t) {
@@ -5721,146 +5341,24 @@
         if (!colors) {
           colors = {
             "none": "#ffffff",
-            "aliceblue": "#f0f8ff",
-            "antiquewhite": "#faebd7",
-            "aqua": "#00ffff",
-            "aquamarine": "#7fffd4",
-            "azure": "#f0ffff",
-            "beige": "#f5f5dc",
-            "bisque": "#ffe4c4",
             "black": "#000000",
-            "blanchedalmond": "#ffebcd",
             "blue": "#0000ff",
-            "blueviolet": "#8a2be2",
             "brown": "#a52a2a",
-            "burlywood": "#deb887",
-            "cadetblue": "#5f9ea0",
-            "chartreuse": "#7fff00",
-            "chocolate": "#d2691e",
-            "coral": "#ff7f50",
             "cornflowerblue": "#6495ed",
-            "cornsilk": "#fff8dc",
-            "crimson": "#dc143c",
             "cyan": "#00ffff",
             "darkblue": "#00008b",
             "darkcyan": "#008b8b",
-            "darkgoldenrod": "#b8860b",
-            "darkgray": "#a9a9a9",
-            "darkgreen": "#006400",
-            "darkkhaki": "#bdb76b",
-            "darkmagenta": "#8b008b",
-            "darkolivegreen": "#556b2f",
-            "darkorange": "#ff8c00",
-            "darkorchid": "#9932cc",
-            "darkred": "#8b0000",
-            "darksalmon": "#e9967a",
-            "darkseagreen": "#8fbc8f",
-            "darkslateblue": "#483d8b",
-            "darkslategray": "#2f4f4f",
-            "darkturquoise": "#00ced1",
-            "darkviolet": "#9400d3",
-            "deeppink": "#ff1493",
-            "deepskyblue": "#00bfff",
-            "dimgray": "#696969",
-            "dodgerblue": "#1e90ff",
-            "firebrick": "#b22222",
-            "floralwhite": "#fffaf0",
-            "forestgreen": "#228b22",
-            "fuchsia": "#ff00ff",
-            "gainsboro": "#dcdcdc",
-            "ghostwhite": "#f8f8ff",
-            "gold": "#ffd700",
-            "goldenrod": "#daa520",
             "gray": "#808080",
             "green": "#008000",
-            "greenyellow": "#adff2f",
-            "honeydew": "#f0fff0",
-            "hotpink": "#ff69b4",
-            "indianred": "#cd5c5c",
-            "indigo ": "#4b0082",
-            "ivory": "#fffff0",
-            "khaki": "#f0e68c",
-            "lavender": "#e6e6fa",
-            "lavenderblush": "#fff0f5",
-            "lawngreen": "#7cfc00",
-            "lemonchiffon": "#fffacd",
-            "lightblue": "#add8e6",
-            "lightcoral": "#f08080",
-            "lightcyan": "#e0ffff",
-            "lightgoldenrodyellow": "#fafad2",
-            "lightgrey": "#d3d3d3",
-            "lightgreen": "#90ee90",
-            "lightpink": "#ffb6c1",
-            "lightsalmon": "#ffa07a",
-            "lightseagreen": "#20b2aa",
-            "lightskyblue": "#87cefa",
-            "lightslategray": "#778899",
-            "lightsteelblue": "#b0c4de",
-            "lightyellow": "#ffffe0",
-            "lime": "#00ff00",
-            "limegreen": "#32cd32",
-            "linen": "#faf0e6",
             "magenta": "#ff00ff",
-            "maroon": "#800000",
-            "mediumaquamarine": "#66cdaa",
-            "mediumblue": "#0000cd",
-            "mediumorchid": "#ba55d3",
-            "mediumpurple": "#9370d8",
-            "mediumseagreen": "#3cb371",
-            "mediumslateblue": "#7b68ee",
-            "mediumspringgreen": "#00fa9a",
-            "mediumturquoise": "#48d1cc",
-            "mediumvioletred": "#c71585",
-            "midnightblue": "#191970",
-            "mintcream": "#f5fffa",
-            "mistyrose": "#ffe4e1",
-            "moccasin": "#ffe4b5",
-            "navajowhite": "#ffdead",
-            "navy": "#000080",
-            "oldlace": "#fdf5e6",
-            "olive": "#808000",
-            "olivedrab": "#6b8e23",
             "orange": "#ffa500",
-            "orangered": "#ff4500",
-            "orchid": "#da70d6",
-            "palegoldenrod": "#eee8aa",
-            "palegreen": "#98fb98",
-            "paleturquoise": "#afeeee",
-            "palevioletred": "#d87093",
-            "papayawhip": "#ffefd5",
-            "peachpuff": "#ffdab9",
-            "peru": "#cd853f",
             "pink": "#ffc0cb",
-            "plum": "#dda0dd",
-            "powderblue": "#b0e0e6",
             "purple": "#800080",
             "red": "#ff0000",
-            "rosybrown": "#bc8f8f",
-            "royalblue": "#4169e1",
-            "saddlebrown": "#8b4513",
-            "salmon": "#fa8072",
-            "sandybrown": "#f4a460",
-            "seagreen": "#2e8b57",
-            "seashell": "#fff5ee",
-            "sienna": "#a0522d",
-            "silver": "#c0c0c0",
-            "skyblue": "#87ceeb",
-            "slateblue": "#6a5acd",
-            "slategray": "#708090",
-            "snow": "#fffafa",
-            "springgreen": "#00ff7f",
-            "steelblue": "#4682b4",
-            "tan": "#d2b48c",
-            "teal": "#008080",
-            "thistle": "#d8bfd8",
-            "tomato": "#ff6347",
             "turquoise": "#40e0d0",
             "violet": "#ee82ee",
-            "wheat": "#f5deb3",
             "white": "#ffffff",
-            "whitesmoke": "#f5f5f5",
-            "yellow": "#ffff00",
-            "yellowgreen": "#9acd32"
+            "yellow": "#ffff00"
           };
         }
       });
@@ -5889,52 +5387,6 @@
       _myTrait_.rgbToHex = function (p) {
         var me = this;
         return "#" + me.componentToHex(p.r) + me.componentToHex(p.g) + me.componentToHex(p.b);
-      };
-
-      /**
-       * @param Object c
-       */
-      _myTrait_.rgbToHsv = function (c) {
-        var rr,
-            gg,
-            bb,
-            r = c.r / 255,
-            g = c.g / 255,
-            b = c.b / 255,
-            h,
-            s,
-            v = Math.max(r, g, b),
-            diff = v - Math.min(r, g, b),
-            diffc = function diffc(c) {
-          return (v - c) / 6 / diff + 1 / 2;
-        };
-
-        if (diff == 0) {
-          h = s = 0;
-        } else {
-          s = diff / v;
-          rr = diffc(r);
-          gg = diffc(g);
-          bb = diffc(b);
-
-          if (r === v) {
-            h = bb - gg;
-          } else if (g === v) {
-            h = 1 / 3 + rr - bb;
-          } else if (b === v) {
-            h = 2 / 3 + gg - rr;
-          }
-          if (h < 0) {
-            h += 1;
-          } else if (h > 1) {
-            h -= 1;
-          }
-        }
-        return {
-          h: Math.round(h * 360),
-          s: Math.round(s * 100),
-          v: Math.round(v * 100)
-        };
       };
 
       /**
@@ -8263,7 +7715,11 @@
           if (this.isArray(objectList)) {
             args = objectList;
           } else {
-            args = Array.prototype.slice.call(arguments);
+            var len = arguments.length;
+            var args = new Array(len);
+            for (var i = 0; i < len; i++) {
+              args[i] = arguments[i];
+            }
           }
           args.forEach(function (rules) {
             for (var n in rules) {
@@ -8857,143 +8313,6 @@
         this.css = css;
       }
     }).call(new Function("return this")());
-
-    // the subclass definition comes around here then
-
-    // The class definition is here...
-    var clipBoard_prototype = function clipBoard_prototype() {
-      // Then create the traits and subclasses for this class here...
-
-      (function (_myTrait_) {
-        var _hasSupport;
-
-        // Initialize static variables here...
-
-        /**
-         * @param float name
-         */
-        _myTrait_.del = function (name) {
-
-          if (this.localStoreSupport()) {
-            localStorage.removeItem(name);
-          } else {
-            this.set(name, "", -1);
-          }
-        };
-
-        /**
-         * @param float opts
-         */
-        _myTrait_.fromClipboard = function (opts) {
-
-          var str = this.get(this._name);
-          var o = JSON.parse(str);
-
-          return o;
-        };
-
-        /**
-         * @param float name
-         */
-        _myTrait_.get = function (name) {
-
-          if (this.localStoreSupport()) {
-            return localStorage.getItem(name);
-          } else {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(";");
-            for (var i = 0; i < ca.length; i++) {
-              var c = ca[i];
-              while (c.charAt(0) == " ") c = c.substring(1, c.length);
-              if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-          }
-        };
-
-        if (_myTrait_.__traitInit && !_myTrait_.hasOwnProperty("__traitInit")) _myTrait_.__traitInit = _myTrait_.__traitInit.slice();
-        if (!_myTrait_.__traitInit) _myTrait_.__traitInit = [];
-        _myTrait_.__traitInit.push(function (name) {
-
-          this._name = name;
-        });
-
-        /**
-         * @param float t
-         */
-        _myTrait_.localStoreSupport = function (t) {
-          if (_hasSupport) return _hasSupport;
-
-          try {
-            _hasSupport = "localStorage" in window && window["localStorage"] !== null;
-            return _hasSupport;
-          } catch (e) {
-            return false;
-          }
-        };
-
-        /**
-         * @param float name
-         * @param float value
-         * @param float days
-         */
-        _myTrait_.set = function (name, value, days) {
-
-          if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-            var expires = "; expires=" + date.toGMTString();
-          } else {
-            var expires = "";
-          }
-          if (this.localStoreSupport()) {
-            localStorage.setItem(name, value);
-          } else {
-            document.cookie = name + "=" + value + expires + "; path=/";
-          }
-        };
-
-        /**
-         * @param float items
-         */
-        _myTrait_.toClipboard = function (items) {
-          this.set(this._name, JSON.stringify(items));
-
-          return this;
-        };
-      })(this);
-    };
-
-    var clipBoard = function clipBoard(a, b, c, d, e, f, g, h) {
-      var m = this,
-          res;
-      if (m instanceof clipBoard) {
-        var args = [a, b, c, d, e, f, g, h];
-        if (m.__factoryClass) {
-          m.__factoryClass.forEach(function (initF) {
-            res = initF.apply(m, args);
-          });
-          if (typeof res == "function") {
-            if (res._classInfo.name != clipBoard._classInfo.name) return new res(a, b, c, d, e, f, g, h);
-          } else {
-            if (res) return res;
-          }
-        }
-        if (m.__traitInit) {
-          m.__traitInit.forEach(function (initF) {
-            initF.apply(m, args);
-          });
-        } else {
-          if (typeof m.init == "function") m.init.apply(m, args);
-        }
-      } else return new clipBoard(a, b, c, d, e, f, g, h);
-    };
-    // inheritance is here
-
-    clipBoard._classInfo = {
-      name: "clipBoard"
-    };
-    clipBoard.prototype = new clipBoard_prototype();
 
     (function (_myTrait_) {
       var _eg;
