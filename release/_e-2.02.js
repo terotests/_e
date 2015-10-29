@@ -2245,20 +2245,6 @@
         var _ee_ = this.__singleton();
         _ee_.bind(obj, varName, this);
         var o = this;
-        this.on("datachange", function () {
-          if (o._type == "checkbox") {
-            if (obj[varName]) {
-              o.checked(true);
-            } else {
-              o.checked(false);
-            }
-          } else {
-
-            if (typeof obj[varName] != "undefined") {
-              o.val(obj[varName]);
-            }
-          }
-        });
         this.on("value", function () {
           if (obj) {
 
@@ -2273,8 +2259,6 @@
               obj.set(varName, o.val());
             }
           }
-          // Send the message to other listeners
-          _ee_.send(obj, varName, "datachange", o);
         });
 
         if (obj) {
@@ -2771,28 +2755,6 @@
         if (this._contentObj) {
           return this._contentObj.html.apply(this._contentObj, Array.prototype.slice.call(arguments));
         }
-        // test if the value is a stream
-        if (this.isStream(h)) {
-          var me = this;
-          // TODO: check if we are re-binding two streams on the same element, possible error
-          h.onValue(function (t) {
-            me.clear();
-            me.add(t);
-          });
-          return this;
-        }
-
-        if (this.isFunction(h)) {
-
-          var val = h();
-          var oo = h(null, true),
-              me = this;
-          oo.me.on(oo.name, me.uniqueListener("text:value", function (o, v) {
-            me._dom.innerHTML = v;
-          }));
-          this._dom.innerHTML = val;
-          return this;
-        }
 
         if (typeof h == "undefined") return this._dom.innerHTML;
         this._dom.innerHTML = h;
@@ -2841,39 +2803,6 @@
             });
             return this;
           }
-        }
-
-        if (this.isFunction(t)) {
-
-          var val = t();
-          var oo = t(null, true),
-              me = this,
-              soon = later(),
-              bTSpan = false;
-
-          if (me._tag == "tspan") bTSpan = true;
-
-          if (this._svgElem || typeof me._dom.textContent != "undefined") {
-            oo.me.on(oo.name, me.uniqueListener("text:value", function (o, v) {
-              if (bTSpan) v = v.trim();
-              // soon.add(me.text, me, v);
-              if (bTSpan && (!v || v.length == 0)) {
-                me._dom.textContent = " ";
-              } else {
-                me._dom.textContent = v;
-              }
-            }));
-          }
-          if (this._svgElem || typeof this._dom.textContent != "undefined") {
-            if (bTSpan) val = val.trim();
-            if (bTSpan && (!val || val.length == 0)) {
-              this._dom.textContent = "";
-              me._dom.textContent = " ";
-            } else {
-              this._dom.textContent = val;
-            }
-          }
-          return this;
         }
 
         if (this._svgElem || typeof this._dom.textContent != "undefined") {
@@ -5912,39 +5841,6 @@
               return this;
             }
 
-            if (this._host.isFunction(v)) {
-
-              var val = v();
-              var oo = v(null, true),
-                  me = this,
-                  domi = me._dom,
-                  host = this._host,
-                  list;
-              //console.log("setting attr for ", oo.me._guid, "for ", oo.name);
-
-              if (n == "xlink:href") {
-                list = host.uniqueListener("attr:" + n, function (o, newV) {
-                  if (typeof newV != "undefined" && newV !== null) {
-                    domi.setAttributeNS("http://www.w3.org/1999/xlink", "href", newV);
-                  }
-                });
-              } else {
-                list = host.uniqueListener("attr:" + n, function (o, newV) {
-                  if (typeof newV != "undefined" && newV !== null) {
-                    domi.setAttributeNS(null, n, newV);
-                  }
-                });
-              }
-              oo.me.on(oo.name, list);
-              if (typeof val != "undefined" && val !== null) {
-                if (n == "xlink:href") {
-                  this._dom.setAttributeNS("http://www.w3.org/1999/xlink", "href", val);
-                } else {
-                  this._dom.setAttributeNS(null, n, val);
-                }
-              } else {}
-              return this;
-            }
             if (typeof v != "undefined") {
               if (n == "xlink:href") {
                 this._dom.setAttributeNS("http://www.w3.org/1999/xlink", "href", v);
@@ -6005,27 +5901,6 @@
             }
           }
 
-          if (this._host.isFunction(v)) {
-
-            var val = v();
-            var oo = v(null, true),
-                me = this,
-                domi = me._dom,
-                host = this._host;
-
-            var list = host.uniqueListener("attr:" + n, function (o, newV) {
-              if (typeof newV != "undefined") {
-                host._attributes[n] = newV;
-                domi.setAttribute(n, newV);
-              }
-            });
-            oo.me.on(oo.name, list);
-            if (typeof val != "undefined" && isNaN(n)) {
-              host._attributes[n] = val;
-              this._dom.setAttribute(n, val);
-            }
-            return this;
-          }
           if (typeof v != "undefined" && isNaN(n)) {
             host._attributes[n] = v;
             this._dom.setAttribute(n, v);
