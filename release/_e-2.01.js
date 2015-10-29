@@ -1632,7 +1632,9 @@
           return this._contentObj.forEach.apply(this._contentObj, Array.prototype.slice.call(arguments));
         }
 
-        if (this._children) this._children.forEach(fn);
+        if (this._children) this._children.forEach(function (c) {
+          fn(c);
+        });
       };
 
       /**
