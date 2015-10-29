@@ -2630,7 +2630,7 @@ return box;
 *The source code for the function*:
 ```javascript
 if(this._contentObj) {
-    return this._contentObj.height.apply(this._contentObj, Array.prototype.slice.call(arguments));
+    return this._contentObj.height(v);
 }
 if(typeof(v)=="undefined") return this._h;
 
@@ -2723,7 +2723,7 @@ return this;
 *The source code for the function*:
 ```javascript
 if(this._contentObj) {
-    return this._contentObj.width.apply(this._contentObj, Array.prototype.slice.call(arguments));
+    return this._contentObj.width(v);
 }
 
 if(typeof(v)=="undefined") return this._w;
@@ -3348,7 +3348,7 @@ The class has following internal singleton variables:
 *The source code for the function*:
 ```javascript
 if(this._contentObj) {
-    return this._contentObj.child.apply(this._contentObj, Array.prototype.slice.call(arguments));
+    return this._contentObj.child(i);
 }
 return this._children[i];
 
@@ -3360,7 +3360,7 @@ return this._children[i];
 *The source code for the function*:
 ```javascript
 if(this._contentObj) {
-    return this._contentObj.childCount.apply(this._contentObj, Array.prototype.slice.call(arguments));
+    return this._contentObj.childCount();
 }
 
 if(!this._children) return 0;
@@ -3373,7 +3373,7 @@ Calls function for all the direct children of this node
 *The source code for the function*:
 ```javascript
 if(this._contentObj) {
-    return this._contentObj.forChildren.apply(this._contentObj, Array.prototype.slice.call(arguments));
+    return this._contentObj.forChildren(fn,recursive);
 }
 
 
@@ -3406,7 +3406,7 @@ Returns all the children which return true when given as parameter to function f
 *The source code for the function*:
 ```javascript
 if(this._contentObj) {
-    return this._contentObj.searchTree.apply(this._contentObj, Array.prototype.slice.call(arguments));
+    return this._contentObj.searchTree(fn,list);
 }
 
 if(!list) list = [];
@@ -3435,7 +3435,7 @@ The class has following internal singleton variables:
 *The source code for the function*:
 ```javascript
 if(this._contentObj) {
-    return this._contentObj.addClass.apply(this._contentObj, Array.prototype.slice.call(arguments));
+    return this._contentObj.addClass(c);
 }
 if(this._svg) return this;
 if(this._dom instanceof SVGElement) return;
@@ -3487,7 +3487,7 @@ return "";
 *The source code for the function*:
 ```javascript
 if(this._contentObj) {
-    return this._contentObj.hasClass.apply(this._contentObj, Array.prototype.slice.call(arguments));
+    return this._contentObj.hasClass(c);
 }
 if(!this._classes) return false;
 if(this._classes.indexOf(c)>=0) return true;
@@ -3500,7 +3500,7 @@ return false;
 *The source code for the function*:
 ```javascript
 if(this._contentObj) {
-    return this._contentObj.removeClass.apply(this._contentObj, Array.prototype.slice.call(arguments));
+    return this._contentObj.removeClass(c);
 }
 
 if(!this._classes) return this;
@@ -7604,17 +7604,11 @@ The class has following internal singleton variables:
 ```javascript
 
 var host = this._host;
-if(!isNaN(n)) {
-    if(typeof(console)!="undefined" && typeof(console.trace)!="undefined") {
-        //console.log("Attr set to ", n);
-        //console.trace();
-    }
-    return;
-}
+if(!isNaN(n)) return;
 
-if(this._host._svgElem) {
+if(host._svgElem) {
     
-    if(this._host.isObject(v)) {
+    if(host.isObject(v)) {
         if(v.onValue) {
             // Assume it is a stream...
             var me = this;
@@ -7632,7 +7626,7 @@ if(this._host._svgElem) {
         }
     }
     
-    if(this._host.isArray(v)) {
+    if(host.isArray(v)) {
 
         var oo = v[0],
             fName = v[1],
@@ -7680,7 +7674,7 @@ if(this._host._svgElem) {
 }
 
 
-if(this._host.isArray(v)) {
+if(host.isArray(v)) {
     
     // console.log("Taking array as ", v);
     
@@ -7689,7 +7683,6 @@ if(this._host.isArray(v)) {
         val = oo[fName](),
         me = this,
         domi = me._dom,
-        host = this._host,
         list;
 
 
@@ -7712,7 +7705,7 @@ if(this._host.isArray(v)) {
 }
        
     
-if(this._host.isObject(v)) {
+if(host.isObject(v)) {
     if(v.onValue) {
         // Assume it is a stream...
         var me = this;
