@@ -1593,10 +1593,7 @@
         if (this._contentObj) {
           return this._contentObj.child.apply(this._contentObj, Array.prototype.slice.call(arguments));
         }
-
-        if (this._children[i]) {
-          return this._children[i];
-        }
+        return this._children[i];
       };
 
       /**
@@ -1609,56 +1606,6 @@
 
         if (!this._children) return 0;
         return this._children.length;
-      };
-
-      /**
-       * @param float elem
-       * @param float fn
-       */
-      _myTrait_.domAttrIterator = function (elem, fn) {
-
-        if (!elem) return;
-        if (!elem.attributes) return;
-
-        for (var i = 0; i < elem.attributes.length; i++) {
-          var attrib = elem.attributes[i];
-          if (attrib.specified) {
-            fn(attrib.name, attrib.value);
-          }
-        }
-      };
-
-      /**
-       * @param float elem
-       * @param float fn
-       * @param float nameSpace
-       */
-      _myTrait_.domIterator = function (elem, fn, nameSpace) {
-
-        if (!elem) return;
-
-        var noRecurse = {
-          "textarea": true
-        };
-
-        var childNodes = elem.childNodes;
-        if (childNodes) {
-          var len = childNodes.length;
-          for (var i = 0; i < len; i++) {
-            var child = childNodes[i];
-            if (child.tagName == "svg") nameSpace = "svg";
-            if (child) {
-              var bStop = fn(child, nameSpace);
-              if (bStop) {} else {
-                var bFullElem = child instanceof HTMLElement;
-                if (bFullElem) {
-                  var tN = child.tagName.toLowerCase();
-                  if (!noRecurse[tN]) this.domIterator(child, fn, nameSpace);
-                }
-              }
-            }
-          }
-        }
       };
 
       /**
@@ -1688,10 +1635,7 @@
           return this._contentObj.forEach.apply(this._contentObj, Array.prototype.slice.call(arguments));
         }
 
-        if (this._children) this._children.forEach(function (c) {
-          fn(c);
-          // c.forChildren(fn);
-        });
+        if (this._children) this._children.forEach(fn);
       };
 
       /**
@@ -2529,18 +2473,6 @@
       };
 
       /**
-       * @param float t
-       */
-      _myTrait_.clearOptions = function (t) {
-        if (this._dataList) {
-          var node = this._dataList._dom;
-          if (node.parentNode) node.parentNode.removeChild(node);
-          this._options = {};
-          this._dataList = null;
-        }
-      };
-
-      /**
        * Focus into this element
        * @param float t
        */
@@ -2549,56 +2481,6 @@
           return this._contentObj.focus();
         }
         if (this._dom.focus) this._dom.focus();
-      };
-
-      /**
-       * @param Array list
-       */
-      _myTrait_.options = function (list) {
-        // creates the input options for html5 usage...
-
-        if (this._tag == "input") {
-          if (this._dataList) {
-            var node = this._dataList._dom;
-            if (node.parentNode) node.parentNode.removeChild(node);
-            this._options = {};
-            this._dataList = null;
-          }
-          if (!this._dataList) {
-            this._options = {};
-            this._dataList = _e("datalist");
-            this._dataListId = this.guid();
-            this._dataList.q.attr("id", this._dataListId);
-            // console.log("DATA", list);
-            if (Object.prototype.toString.call(list) === "[object Array]") {
-              var me = this;
-              list.forEach(function (n) {
-                var opt = _e("option");
-                opt.q.attr("value", n);
-                opt.text(n);
-                me._options[n] = opt;
-                me._dataList.add(opt);
-              });
-            } else {
-              for (var n in list) {
-                if (this._options[n]) continue;
-                if (list.hasOwnProperty(n)) {
-                  var opt = _e("option");
-                  opt.q.attr("value", n);
-                  opt.text(list[n]);
-                  this._options[n] = opt;
-                  this._dataList.add(opt);
-                }
-              }
-            }
-
-            this.q.attr("list", this._dataListId);
-            if (document.body) {
-              document.body.appendChild(this._dataList._dom);
-            }
-          }
-        }
-        return this;
       };
 
       /**
@@ -5917,7 +5799,7 @@
               }
             }
           } catch (e) {
-            errCallback(e);
+            if (errCallback) errCallback(e);
           }
           return this;
         }
@@ -8687,8 +8569,6 @@
 }).call(new Function("return this")());
 
 // should we have named styles... perhaps... TODO
-
-// console.log("**** SHOULD NOT ITERATE CHILDREN *****");
 
 // TODO: error handling postMessage("no instance found");
 
