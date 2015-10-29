@@ -2438,8 +2438,8 @@
         var es = ["a", "b", "h1", "h2", "h3", "h4", "h5", "h6", "button", "checkbox", "div", "form", "img", "input", "label", "li", "ol", "p", "pre", "span", "strong", "table", "textarea", "ul", "video"];
 
         es.forEach(function (n) {
-          _myTrait_[n] = function (n, className, attrs) {
-            return this.shortcutFor(n, className, attrs);
+          _myTrait_[n] = function (className, attrs, c, d, e) {
+            return this.shortcutFor(n, className, attrs, c, d, e);
           };
         });
       };
