@@ -853,64 +853,6 @@
         return this;
       };
 
-      /**
-       * @param bool preventAll
-       * @param float zIndex
-       */
-      _myTrait_.hoverLayer = function (preventAll, zIndex) {
-        // creates a layer which does not let through any events...
-
-        var o = _e().absolute();
-        var _eg = this.__singleton();
-
-        // the max z-index for this layer...
-        o._dom.zIndex = zIndex || 100000;
-
-        if (preventAll) {
-          o.addClass("Hoverlayer");
-          o.draggable(function (o, dv) {
-            console.log("hover, start drag");
-          }, function (o, dv) {
-            console.log("dragging ");
-          }, function (o, dv) {
-            console.log("end drag");
-          });
-
-          o.bindSysEvent("mouseenter", function () {
-            o.trigger("mouseenter");
-          }, true);
-
-          o.bindSysEvent("mouseleave", function () {
-            o.trigger("mouseleave");
-          }, true);
-
-          o.bindSysEvent("click", function () {
-            o.trigger("click");
-          }, true);
-
-          o.bindSysEvent("mousedown", function () {
-            o.trigger("mousedown");
-            _eg.dragMouseDown(o);
-          }, true);
-
-          o.bindSysEvent("mouseup", function () {
-            o.trigger("mouseup");
-            _eg.dragMouseUp();
-          }, true);
-        }
-
-        var off = this.offset();
-
-        o.width(off.width);
-        o.height(off.height);
-
-        var rel = _e().relative();
-        this.insertBefore(rel);
-        rel.add(o);
-
-        return o;
-      };
-
       if (_myTrait_.__traitInit && !_myTrait_.hasOwnProperty("__traitInit")) _myTrait_.__traitInit = _myTrait_.__traitInit.slice();
       if (!_myTrait_.__traitInit) _myTrait_.__traitInit = [];
       _myTrait_.__traitInit.push(function (t) {});
