@@ -7253,11 +7253,7 @@
           if (this.isArray(objectList)) {
             args = objectList;
           } else {
-            var len = arguments.length;
-            var args = new Array(len);
-            for (var i = 0; i < len; i++) {
-              args[i] = arguments[i];
-            }
+            args = Array.prototype.slice.call(arguments);
           }
           args.forEach(function (rules) {
             for (var n in rules) {
