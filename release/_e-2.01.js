@@ -4944,6 +4944,7 @@
             "turquoise": "#40e0d0",
             "violet": "#ee82ee",
             "white": "#ffffff",
+            "skyblue": "#87ceeb",
             "yellow": "#ffff00"
           };
         }
