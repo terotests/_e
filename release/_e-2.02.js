@@ -6812,6 +6812,8 @@
 
           var currentDragTarget;
           o.setDragTarget = function (elem) {
+            console.log("Curren tdrag target set ");
+            console.log(elem);
             currentDragTarget = elem;
           };
 
