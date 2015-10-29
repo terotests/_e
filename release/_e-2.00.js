@@ -7108,17 +7108,6 @@
          */
         _myTrait_._easeFns = function (t) {
           _easings = {
-            bounceOut: function bounceOut(t) {
-              if (t < 1 / 2.75) {
-                return 7.5625 * t * t;
-              } else if (t < 2 / 2.75) {
-                return 7.5625 * (t -= 1.5 / 2.75) * t + 0.75;
-              } else if (t < 2.5 / 2.75) {
-                return 7.5625 * (t -= 2.25 / 2.75) * t + 0.9375;
-              } else {
-                return 7.5625 * (t -= 2.625 / 2.75) * t + 0.984375;
-              }
-            },
             easeIn: function easeIn(t) {
               return t * t;
             },
@@ -7128,9 +7117,6 @@
             easeInOut: function easeInOut(t) {
               if (t < 0.5) return t * t;
               return -1 * t * (t - 2);
-            },
-            easeInCirc: function easeInCirc(t) {
-              return -1 * (Math.sqrt(1 - t * t) - 1);
             },
             easeInCubic: function easeInCubic(t) {
               return t * t * t;
@@ -7183,7 +7169,7 @@
         _myTrait_.after = function (seconds, fn, name) {
 
           if (!name) {
-            name = "aft7491_" + _localCnt++;
+            name = "aft_" + _localCnt++;
           }
 
           _everies[name] = {
