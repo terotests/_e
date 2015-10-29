@@ -2434,13 +2434,11 @@
         _elemInit = true;
         var _elemNames = ["a", "b", "h1", "h2", "h3", "h4", "h5", "h6", "button", "checkbox", "div", "form", "img", "input", "label", "li", "ol", "p", "pre", "span", "strong", "table", "textarea", "ul", "video"];
 
-        for (var n in _elemNames) {
-          if (_elemNames.hasOwnProperty(n)) {
-            _myTrait_[n] = function (n, className, attrs) {
-              return this.shortcutFor(n, className, attrs);
-            };
-          }
-        }
+        _elemNames.forEach(function (n) {
+          _myTrait_[n] = function (n, className, attrs) {
+            return this.shortcutFor(n, className, attrs);
+          };
+        });
       };
 
       /**
