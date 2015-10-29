@@ -937,7 +937,6 @@ MIT. Currently use at own risk.
 - [add](README.md#_add)
 - [addItem](README.md#_addItem)
 - [clear](README.md#_clear)
-- [collectFromDOM](README.md#_collectFromDOM)
 - [insertAfter](README.md#_insertAfter)
 - [insertAt](README.md#_insertAt)
 - [insertBefore](README.md#_insertBefore)
@@ -1834,8 +1833,6 @@ items.forEach(  function(e) {
         } else {
             e = newItem;
         }
-        // optionally could be used later, 
-        // e._creatorFn = creator;
     }    
     
     if(typeof(e)=="number" || typeof(e)=="string" || !isNaN(e) ) {
@@ -1935,49 +1932,6 @@ while (this._dom.firstChild) {
     this._dom.removeChild(this._dom.firstChild);
 }
 return this;
-```
-
-### <a name="_collectFromDOM"></a>::collectFromDOM(elem)
-
-
-*The source code for the function*:
-```javascript
-// collecting the nodes from DOM -tree...
-
-var e = _e(elem);
-var len = elem.childNodes.length;
-
-var alen = elem.attributes.length;
-for(var i=0; i<alen;i++) {
-    var a = elem.attributes[i];
-    e.q.attr(a.name, a.value);
-}
-
-var str = elem.className;
-if(str) {
-    str = str+" ";
-    var classes = str.split(" ");
-    var clen = classes.length;
-    for(var i=0; i<clen;i++) {
-        var a = classes[i];
-        if(a) {
-            e.addClass(a);
-        }
-    }
-}
-
-if(elem.innerText || elem.textContent) {
-    e.text(elem.innerText || elem.textContent);
-}
-
-for(var i=0; i<len;i++) {
-    var sub = elem.childNodes[i];
-    e.add(this.collectFromDOM(sub));
-}
-
-return e;
-
-
 ```
 
 ### <a name="_insertAfter"></a>::insertAfter(newItem)
@@ -2217,11 +2171,7 @@ var i=0, len = chList.length;
 for(var i=0; i<len; i++) {
     this._children[i]._index = i;
 }
-/*
-chList.forEach(function(ch) {
-   ch._index = i++;
-});
-*/
+
 ```
 
 ### <a name="_remove"></a>::remove(t)
@@ -4138,21 +4088,6 @@ if(this.isFunction(obj[varName])) {
 var _ee_ = this.__singleton();
 _ee_.bind(obj, varName, this);
 var o = this;
-this.on("datachange", function() {
-    if(o._type=="checkbox") {
-        if(obj[varName]) {
-            o.checked(true);
-        } else {
-            o.checked(false);
-        }
-    } else {
-
-        if(typeof(obj[varName])!="undefined") {
-            o.val(obj[varName]);
-        }
-        
-    }
-});
 this.on("value", function() {
     if(obj) {
         
@@ -4169,8 +4104,6 @@ this.on("value", function() {
         }
 
     }
-    // Send the message to other listeners
-    _ee_.send(obj, varName, "datachange", o);
 });
 
 if(obj) {
@@ -4700,28 +4633,6 @@ if( typeof(elem.textContent)!="undefined") {
 if(this._contentObj) {
     return this._contentObj.html.apply(this._contentObj, Array.prototype.slice.call(arguments));
 }
-// test if the value is a stream
-if(this.isStream(h)) {
-    var me = this;
-    // TODO: check if we are re-binding two streams on the same element, possible error
-    h.onValue( function(t) {
-        me.clear();
-        me.add( t );
-    });
-    return this;
-}
-
-if(this.isFunction(h)) {
-    
-    var val = h();
-    var oo = h(null, true), 
-        me = this;
-    oo.me.on(oo.name, me.uniqueListener("text:value",function(o,v) {
-        me._dom.innerHTML = v;
-    }));
-    this._dom.innerHTML = val;
-    return this;
-}
 
 if (typeof(h) == "undefined") return this._dom.innerHTML;
 this._dom.innerHTML = h;
@@ -4770,39 +4681,6 @@ if(this.isObject(t)) {
         });
         return this;
     }
-}
-
-if(this.isFunction(t)) {
-    
-    var val = t();
-    var oo = t(null, true), 
-        me = this,
-        soon = later(),
-        bTSpan = false;
-        
-    if(me._tag == "tspan") bTSpan = true;
-        
-    if(this._svgElem || typeof(me._dom.textContent)!="undefined") {
-         oo.me.on(oo.name, me.uniqueListener("text:value",function(o,v) {
-            if(bTSpan) v = v.trim(); 
-            // soon.add(me.text, me, v);
-            if(bTSpan && (!v || v.length==0) ) {
-                me._dom.textContent = '\u00A0';
-            } else {
-                me._dom.textContent = v;
-            }
-         }));         
-    }   
-    if(this._svgElem || typeof(this._dom.textContent)!="undefined") {
-        if(bTSpan) val = val.trim(); 
-        if(bTSpan && (!val || val.length==0) ) {
-            this._dom.textContent = "";
-            me._dom.textContent = '\u00A0';
-        } else {
-            this._dom.textContent = val;
-        }
-    } 
-    return this;
 }
 
 if(this._svgElem || typeof(this._dom.textContent)!="undefined") {
@@ -8064,42 +7942,7 @@ if(this._host._svgElem) {
         }
         return this;        
     }
-    
-    if( this._host.isFunction(v) ) {
-        
-        var val = v();
-        var oo = v(null, true),
-            me = this,
-            domi = me._dom,
-            host = this._host,
-            list;
-        //console.log("setting attr for ", oo.me._guid, "for ", oo.name);
-        
-        if(n=="xlink:href") {
-            list = host.uniqueListener("attr:"+n, function(o,newV) {
-                if(typeof(newV)!="undefined" && ( newV !== null) ) {
-                    domi.setAttributeNS('http://www.w3.org/1999/xlink', 'href', newV);      
-                }
-            });            
-        } else {
-            list = host.uniqueListener("attr:"+n,function(o,newV) {
-                if(typeof(newV)!="undefined" && ( newV !== null) ) {
-                    domi.setAttributeNS(null, n,newV);
-                }
-            });            
-        }
-        oo.me.on(oo.name, list);
-        if(typeof(val)!="undefined" && ( val !== null) ) {
-            if(n=="xlink:href") {
-                this._dom.setAttributeNS('http://www.w3.org/1999/xlink', 'href', val);      
-             } else {
-                this._dom.setAttributeNS(null, n,val);
-             }
-        } else {
-            
-        }
-        return this;
-    }
+
     if(typeof(v)!="undefined") {
         if(n=="xlink:href"){
             this._dom.setAttributeNS('http://www.w3.org/1999/xlink', 'href', v);
@@ -8163,27 +8006,6 @@ if(this._host.isObject(v)) {
     }
 }
 
-if( this._host.isFunction(v) ) {
-    
-    var val = v();
-    var oo = v(null, true),
-        me = this,
-        domi = me._dom,
-        host = this._host;
-        
-    var list = host.uniqueListener("attr:"+n,function(o,newV) {
-        if(typeof(newV)!="undefined") {
-            host._attributes[n] = newV;
-            domi.setAttribute(n,newV);
-        }
-    });        
-    oo.me.on(oo.name, list);
-    if(typeof(val)!="undefined" && isNaN(n)) {
-        host._attributes[n] = val;
-        this._dom.setAttribute(n,val);
-    }
-    return this;
-}
 if(typeof(v)!="undefined" && isNaN(n) ) {
     host._attributes[n] = v;
     this._dom.setAttribute(n,v);
@@ -9270,9 +9092,6 @@ return Math.random().toString(36).substring(2, 15) +
 
 *The source code for the function*:
 ```javascript
-
-if(typeof(t)=="undefined") return this.__isA;
-
 return Object.prototype.toString.call( t ) === '[object Array]';
 ```
 
@@ -9289,9 +9108,6 @@ return Object.prototype.toString.call(fn) == '[object Function]';
 
 *The source code for the function*:
 ```javascript
-
-if(typeof(t)=="undefined") return this.__isO;
-
 return t === Object(t);
 ```
 

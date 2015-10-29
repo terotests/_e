@@ -38,8 +38,6 @@
             } else {
               e = newItem;
             }
-            // optionally could be used later,
-            // e._creatorFn = creator;
           }
 
           if (typeof e == "number" || typeof e == "string" || !isNaN(e)) {
@@ -139,46 +137,6 @@
           this._dom.removeChild(this._dom.firstChild);
         }
         return this;
-      };
-
-      /**
-       * @param DOMElement elem
-       */
-      _myTrait_.collectFromDOM = function (elem) {
-        // collecting the nodes from DOM -tree...
-
-        var e = _e(elem);
-        var len = elem.childNodes.length;
-
-        var alen = elem.attributes.length;
-        for (var i = 0; i < alen; i++) {
-          var a = elem.attributes[i];
-          e.q.attr(a.name, a.value);
-        }
-
-        var str = elem.className;
-        if (str) {
-          str = str + " ";
-          var classes = str.split(" ");
-          var clen = classes.length;
-          for (var i = 0; i < clen; i++) {
-            var a = classes[i];
-            if (a) {
-              e.addClass(a);
-            }
-          }
-        }
-
-        if (elem.innerText || elem.textContent) {
-          e.text(elem.innerText || elem.textContent);
-        }
-
-        for (var i = 0; i < len; i++) {
-          var sub = elem.childNodes[i];
-          e.add(this.collectFromDOM(sub));
-        }
-
-        return e;
       };
 
       /**
@@ -406,11 +364,6 @@
         for (var i = 0; i < len; i++) {
           this._children[i]._index = i;
         }
-        /*
-        chList.forEach(function(ch) {
-        ch._index = i++;
-        });
-        */
       };
 
       /**
@@ -6423,9 +6376,6 @@
          * @param float t
          */
         _myTrait_.isArray = function (t) {
-
-          if (typeof t == "undefined") return this.__isA;
-
           return Object.prototype.toString.call(t) === "[object Array]";
         };
 
@@ -6440,9 +6390,6 @@
          * @param float t
          */
         _myTrait_.isObject = function (t) {
-
-          if (typeof t == "undefined") return this.__isO;
-
           return t === Object(t);
         };
       })(this);
