@@ -5482,14 +5482,11 @@
         _myTrait_.attr = function (n, v) {
 
           var host = this._host;
-          if (!isNaN(n)) {
-            if (typeof console != "undefined" && typeof console.trace != "undefined") {}
-            return;
-          }
+          if (!isNaN(n)) return;
 
-          if (this._host._svgElem) {
+          if (host._svgElem) {
 
-            if (this._host.isObject(v)) {
+            if (host.isObject(v)) {
               if (v.onValue) {
                 // Assume it is a stream...
                 var me = this;
@@ -5507,7 +5504,7 @@
               }
             }
 
-            if (this._host.isArray(v)) {
+            if (host.isArray(v)) {
 
               var oo = v[0],
                   fName = v[1],
@@ -5552,7 +5549,7 @@
             return this;
           }
 
-          if (this._host.isArray(v)) {
+          if (host.isArray(v)) {
 
             // console.log("Taking array as ", v);
 
@@ -5561,7 +5558,6 @@
                 val = oo[fName](),
                 me = this,
                 domi = me._dom,
-                host = this._host,
                 list;
 
             list = host.uniqueListener("attr:" + n, function (o, newV) {
@@ -5582,7 +5578,7 @@
             return this;
           }
 
-          if (this._host.isObject(v)) {
+          if (host.isObject(v)) {
             if (v.onValue) {
               // Assume it is a stream...
               var me = this;
@@ -7353,6 +7349,3 @@
 
 // --> might send the message back to the worker
 // TODO: send msg back
-
-//console.log("Attr set to ", n);
-//console.trace();
