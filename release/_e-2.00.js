@@ -876,16 +876,6 @@
           return this;
         }
 
-        if (this.isFunction(v)) {
-          var oo = v(false, true),
-              me = this;
-          oo.me.on(oo.name, function (o, v) {
-            me.height(v);
-          });
-          this.height(v());
-          return this;
-        }
-
         if (v == "auto") {
           this._dom.style.height = v;
           this._h = v;
@@ -923,11 +913,6 @@
 
         // the max z-index for this layer...
         o._dom.zIndex = zIndex || 100000;
-        /*
-        if(startFn) this.on("startdrag", startFn);
-        if(middleFn) this.on("drag", middleFn);
-        if(endFn) this.on("enddrag", endFn);
-        */
 
         if (preventAll) {
           o.addClass("Hoverlayer");
@@ -1038,21 +1023,6 @@
           return this;
         }
 
-        //console.log("Width = > ", v);
-        if (this.isFunction(v)) {
-          //console.log("Function ",v());
-          var oo = v(false, true),
-              me = this;
-          //console.log(oo);
-          //console.log(oo.me.on);
-          oo.me.on(oo.name, function (o, v) {
-            me.width(v);
-          });
-
-          this.width(v());
-          return this;
-        }
-
         if (v == "auto") {
           this._dom.style.width = v;
           this._w = v;
@@ -1093,20 +1063,6 @@
         }
 
         if (typeof v != "undefined") {
-          if (this._svgElem) {
-            var t = this.getTransform();
-
-            if (!this._y) this._y = 0;
-            if (!this._x) this._x = 0;
-            var dx = v - this._x;
-            this._x = v;
-            if (dx != 0) {
-              t.translate(dx, 0);
-              this.q.attr("transform", t.getSvgTransform());
-              this.trigger("x");
-            }
-            return this;
-          }
           this.q.css("left", v + "px");
           this._x = v;
           this.trigger("x");
@@ -1130,20 +1086,6 @@
         }
 
         if (typeof v != "undefined") {
-          if (this._svgElem) {
-            var t = this.getTransform();
-
-            if (!this._y) this._y = 0;
-            if (!this._x) this._x = 0;
-            var dy = v - this._y;
-            this._y = v;
-            if (dy != 0) {
-              t.translate(0, dy);
-              this.q.attr("transform", t.getSvgTransform());
-              this.trigger("y");
-            }
-            return this;
-          }
           this.q.css("top", v + "px");
           this._y = v;
           this.trigger("y");
