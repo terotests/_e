@@ -816,7 +816,7 @@
        */
       _myTrait_.height = function (v) {
         if (this._contentObj) {
-          return this._contentObj.height.apply(this._contentObj, Array.prototype.slice.call(arguments));
+          return this._contentObj.height(v);
         }
         if (typeof v == "undefined") return this._h;
 
@@ -904,7 +904,7 @@
        */
       _myTrait_.width = function (v) {
         if (this._contentObj) {
-          return this._contentObj.width.apply(this._contentObj, Array.prototype.slice.call(arguments));
+          return this._contentObj.width(v);
         }
 
         if (typeof v == "undefined") return this._w;
@@ -1482,7 +1482,7 @@
        */
       _myTrait_.child = function (i) {
         if (this._contentObj) {
-          return this._contentObj.child.apply(this._contentObj, Array.prototype.slice.call(arguments));
+          return this._contentObj.child(i);
         }
         return this._children[i];
       };
@@ -1492,7 +1492,7 @@
        */
       _myTrait_.childCount = function (t) {
         if (this._contentObj) {
-          return this._contentObj.childCount.apply(this._contentObj, Array.prototype.slice.call(arguments));
+          return this._contentObj.childCount();
         }
 
         if (!this._children) return 0;
@@ -1506,7 +1506,7 @@
        */
       _myTrait_.forChildren = function (fn, recursive) {
         if (this._contentObj) {
-          return this._contentObj.forChildren.apply(this._contentObj, Array.prototype.slice.call(arguments));
+          return this._contentObj.forChildren(fn, recursive);
         }
 
         if (this._children) {
@@ -1538,7 +1538,7 @@
        */
       _myTrait_.searchTree = function (fn, list) {
         if (this._contentObj) {
-          return this._contentObj.searchTree.apply(this._contentObj, Array.prototype.slice.call(arguments));
+          return this._contentObj.searchTree(fn, list);
         }
 
         if (!list) list = [];
@@ -1563,7 +1563,7 @@
        */
       _myTrait_.addClass = function (c) {
         if (this._contentObj) {
-          return this._contentObj.addClass.apply(this._contentObj, Array.prototype.slice.call(arguments));
+          return this._contentObj.addClass(c);
         }
         if (this._svg) return this;
         if (this._dom instanceof SVGElement) return;
@@ -1613,7 +1613,7 @@
        */
       _myTrait_.hasClass = function (c) {
         if (this._contentObj) {
-          return this._contentObj.hasClass.apply(this._contentObj, Array.prototype.slice.call(arguments));
+          return this._contentObj.hasClass(c);
         }
         if (!this._classes) return false;
         if (this._classes.indexOf(c) >= 0) return true;
@@ -1625,7 +1625,7 @@
        */
       _myTrait_.removeClass = function (c) {
         if (this._contentObj) {
-          return this._contentObj.removeClass.apply(this._contentObj, Array.prototype.slice.call(arguments));
+          return this._contentObj.removeClass(c);
         }
 
         if (!this._classes) return this;
