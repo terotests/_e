@@ -1935,7 +1935,7 @@
               pp = pp._parent;
             }
             me.trigger("mouseenter");
-          });
+          }, true);
           this.bindSysEvent("mouseout", function (e) {
             if (!me._hover) return;
 
@@ -1947,7 +1947,7 @@
             if (childHover) return;
             me._hover = false;
             me.trigger("mouseleave");
-          });
+          }, true);
         }
 
         return this;
