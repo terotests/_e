@@ -976,7 +976,6 @@ MIT. Currently use at own risk.
 - [baseZ](README.md#_baseZ)
 - [box](README.md#_box)
 - [height](README.md#_height)
-- [hoverLayer](README.md#_hoverLayer)
 - [offset](README.md#_offset)
 - [pxParam](README.md#_pxParam)
 - [relative](README.md#_relative)
@@ -1135,7 +1134,6 @@ MIT. Currently use at own risk.
 - [send](README.md#mvc_trait_send)
 - [sendHandler](README.md#mvc_trait_sendHandler)
 - [sendMsg](README.md#mvc_trait_sendMsg)
-- [tree](README.md#mvc_trait_tree)
 
 
     
@@ -2228,7 +2226,6 @@ this.forChildren( function(ch) {
     }     
     ch.removeAllHandlers();
     ch.removeChildEvents();
-    ch.removeControllersFor(ch);
 });
 ```
 
@@ -2668,67 +2665,6 @@ if(typeof(p)!="undefined") {
     this.trigger("height");
 }
 return this;
-```
-
-### <a name="_hoverLayer"></a>::hoverLayer(preventAll, zIndex)
-
-
-*The source code for the function*:
-```javascript
-// creates a layer which does not let through any events...
-
-var o = _e().absolute();
-var _eg = this.__singleton();
-
-// the max z-index for this layer...
-o._dom.zIndex = zIndex || 100000;
-
-if(preventAll) {
-    o.addClass("Hoverlayer");
-    o.draggable( function(o,dv) {
-        console.log("hover, start drag");
-    }, function(o,dv) {
-        console.log("dragging ");
-    }, function(o,dv) {
-        console.log("end drag");
-    });
-    
-    o.bindSysEvent("mouseenter", function() {
-        o.trigger("mouseenter");
-    }, true);
-    
-    o.bindSysEvent("mouseleave", function() {
-        o.trigger("mouseleave");
-    }, true);
-    
-    o.bindSysEvent("click", function() {
-        o.trigger("click");
-    }, true);
-    
-    o.bindSysEvent("mousedown", function() {
-        o.trigger("mousedown");
-        _eg.dragMouseDown(o);
-    }, true);
-    
-    o.bindSysEvent("mouseup", function() {
-        o.trigger("mouseup");
-        _eg.dragMouseUp();
-    }, true);
-}
-
-var off = this.offset();
-
-o.width(off.width);
-o.height(off.height);
-
-var rel = _e().relative();
-this.insertBefore(rel);
-rel.add(o);
-
-return o;
-
-
-
 ```
 
 ### ::constructor( t )
@@ -4490,66 +4426,6 @@ if(argData.constr) {
 }
 
 return el;
-/*
-classes.forEach( function(c) { el.addClass( c )});
-attrList.forEach( function(myAttrs) {     
-      for(var n in myAttrs) {
-        if(myAttrs.hasOwnProperty(n)) {
-            if(name=="input" && (n=="type" && myAttrs[n]=="checkbox")) {
-                el._type = "checkbox";
-            }
-            el.attr(n, myAttrs[n]);
-        }
-    }});
-constr.forEach( function(c) {     
-      c.apply(el, [el]);
-    });
-
-
-var constr = [],
-    classes = [],
-    attrList = [];
-    
-var args = Array.prototype.slice.call(arguments);
-args.shift();
-var me = this;
-
-args.forEach( function( a, i ) {
-    if(classes.length==0 && (typeof a == "string" ) ) {
-        classes.push(a);
-        return;
-    }
-    if(classes.length==0 && me.isStream( a ) ) {
-        classes.push(a);
-        return;
-    }  
-    if(attrList.length==0 && me.isObject( a ) && (!me.isFunction( a )) ) {
-        attrList.push(a);
-        return;
-    }  
-    if(constr.length==0 &&  me.isFunction( a ) ) {
-        constr.push(a);
-        return;
-    }     
-});
-
-classes.forEach( function(c) { el.addClass( c )});
-attrList.forEach( function(myAttrs) {     
-      for(var n in myAttrs) {
-        if(myAttrs.hasOwnProperty(n)) {
-            if(name=="input" && (n=="type" && myAttrs[n]=="checkbox")) {
-                el._type = "checkbox";
-            }
-            el.attr(n, myAttrs[n]);
-        }
-    }});
-constr.forEach( function(c) {     
-      c.apply(el, [el]);
-    });
-
-
-return el;
-*/
 ```
 
 ### <a name="domShortcuts_src"></a>domShortcuts::src(src)
@@ -5616,151 +5492,6 @@ return this.onMsg( url, handlerFunction, context );
 *The source code for the function*:
 ```javascript
 return this.send( url, data, callBack, errorCallback);
-```
-
-### <a name="mvc_trait_tree"></a>mvc_trait::tree(treeData, itemFn, options)
-
-
-*The source code for the function*:
-```javascript
-
-if(this._contentObj) {
-    return this._contentObj.tree.apply(this._contentObj, Array.prototype.slice.call(arguments));
-}
-
-var _dragState = {};      
-var _dragOn;
-
-options = options || {};
-
-var showTree = function(item, currLevel) {
-    
-    var subData, 
-        subDataElem,
-        dragHandle;
-    
-    var subList = [];
-    
-    var li;
-    
-    var myObj = {
-        subTree : function(dataList, elem) {
-            subList.push([dataList, elem]);
-        },
-        drag : function(elem, options) {
-            dragHandle = elem;
-        }
-    }
-    
-    li = itemFn.apply(myObj, [item, currLevel] ); 
-    li.on("click", function() {
-        _dragState.lastActive = item;
-    });
-    li.on("mouseenter", function() {
-        if(dragHandle) {
-            if(_dragOn && !_dragState.dropTarget) {
-                li.addClass("draggedOn");
-               _dragState.dropTarget = item;
-               _dragState.dropElem = li;            
-            } else {
-                li.addClass("mouseOn");
-            }
-        }
-    });
-    
-    li.on("mouseleave", function() {
-        li.removeClass("mouseOn");
-        li.removeClass("draggedOn");
-        _dragState.dropTarget = null;
-    });
-    
-
-    if(dragHandle) {
-        dragHandle.drag(function(dragInfo) {
-            if(dragHandle) {
-               // do something here with dragInfo
-               if(dragInfo.start && !_dragState.item) {
-                   _dragOn = true;
-                   _dragState.item = item;
-                   _dragState.srcElem = li;
-               }
-               if(dragInfo.end) {
-                   _dragOn = false;
-                   if(_dragState.dropTarget && _dragState.item) {
-                      
-                       if(_dragState.dropTarget.parent() == _dragState.item.parent()) {
-                           if(_dragState.dropTarget != _dragState.item) {
-                                var new_i = _dragState.dropTarget.indexOf();
-                                _dragState.item.moveToIndex(new_i);
-                           }
-                       } else {
-                           if(_dragState.dropTarget.items) {
-                              _dragState.item.remove();
-                              _dragState.dropTarget.items.push( _dragState.item );
-                           }
-                       }
-                      
-                   }
-                   _dragState.item = null;
-                   _dragState.dropTarget = null;
-               }
-            }
-        });
-    }
-    subList.forEach( function(a) {
-
-            var subDataElem = a.pop();
-            var subData     = a.pop();
-
-            if(subData && subDataElem ) {
-                var subTree = subDataElem;
-                // maybe these are not really necessary...
-                if(subData.length()>0) {
-                    li.addClass("hasChildren");
-                }
-                subDataElem.on("insert", function() {
-                    li.addClass("hasChildren");
-                });
-                subDataElem.on("remove", function() {
-                    if(item.items.length()==0) {
-                        li.removeClass("hasChildren");
-                    }       
-                })    
-                if(options.clickToOpen) subTree.hide();
-                subDataElem.mvc( subData, function(item) {
-                    return showTree(item,currLevel+1);
-                });                  
-                var sub_vis = item.get("open");
-                if(options.clickToOpen) {
-                    item.on("open", function(o,v) {
-                        if(v) {
-                            subTree.show();
-                        } else {
-                            subTree.hide();
-                        }
-                    });
-                }
-                // is the "open" a good thing to have for the tree?
-                li.on("click", function() {
-                    if(options.clickToOpen) {
-                        sub_vis = !sub_vis;
-                        item.set("open", sub_vis);
-                    }
-                });
-                if(sub_vis) subTree.show();        
-            }  
-        
-    })
-
-
-
-    return li;
-}
-this.mvc( treeData, function(item) {
-    return showTree(item,1);
-});        
-
-
 ```
 
 
@@ -7743,12 +7474,6 @@ if(this._reactFn) {
 }
 ```
 
-### ::constructor( t )
-
-```javascript
-
-```
-        
 ### <a name="_patchWith"></a>::patchWith(elem)
 
 
