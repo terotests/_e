@@ -3711,13 +3711,14 @@
             hadChildren = false,
             me = this;
 
-        this.onValue("pushView", function (v) {
-          me.pushView(v);
+        /* 
+        this.onValue("pushView", function(v) {
+        me.pushView(v);
+        });   
+        this.onValue("popView", function(toView) {
+        me.popView(toView);
         });
-
-        this.onValue("popView", function (toView) {
-          me.popView(toView);
-        });
+        */
 
         lastView = this;
 
