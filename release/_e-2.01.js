@@ -42,9 +42,9 @@
             // e._creatorFn = creator;
           }
 
-          if (typeof e == "string" || !isNaN(e)) {
+          if (typeof e == "number" || typeof e == "string" || !isNaN(e)) {
             var nd = _e("span");
-            nd._dom.innerHTML = e;
+            nd._dom.innerHTML = e + "";
             me.add(nd);
             return me;
           }
