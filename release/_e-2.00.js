@@ -1558,23 +1558,20 @@
 
         row.addClass("row" + this._children.length);
 
-        if (!(Object.prototype.toString.call(items) === "[object Array]")) {
-          items = Array.prototype.slice.call(arguments, 0);
+        var itemList = items;
+        if (!this.isArray(items)) {
+          var len = arguments.length;
+          var ii = 0;
+          itemList = new Array(len);
+          while (ii < len) itemList[ii] = arguments[ii++];
         }
 
         var colIndex = 0,
             me = this;
-        items.forEach(function (ii) {
-          var cell = new _e("td");
-          cell._dom.setAttribute("valign", "top");
-          if (me.isObject(ii)) {
-            cell.add(ii);
-          } else {
-            cell.text(ii);
-          }
-          row.addItem(cell);
-          cell.addClass("col" + colIndex);
-          colIndex++;
+        itemList.forEach(function (ii) {
+          row.td("col" + colIndex++, {
+            "valign": "top"
+          }).add(ii);
         });
         return this;
       };
