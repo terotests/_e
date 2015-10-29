@@ -2432,9 +2432,10 @@
         // _elemNames
         if (_elemInit) return;
         _elemInit = true;
-        var _elemNames = ["a", "b", "h1", "h2", "h3", "h4", "h5", "h6", "button", "checkbox", "div", "form", "img", "input", "label", "li", "ol", "p", "pre", "span", "strong", "table", "textarea", "ul", "video"];
 
-        _elemNames.forEach(function (n) {
+        var es = ["a", "b", "h1", "h2", "h3", "h4", "h5", "h6", "button", "checkbox", "div", "form", "img", "input", "label", "li", "ol", "p", "pre", "span", "strong", "table", "textarea", "ul", "video"];
+
+        es.forEach(function (n) {
           _myTrait_[n] = function (n, className, attrs) {
             return this.shortcutFor(n, className, attrs);
           };
