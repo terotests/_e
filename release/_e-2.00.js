@@ -2572,10 +2572,7 @@
         }
 
         if (typeof v == "undefined") {
-
-          // if(typeof( this._checked)=="undefined") {
           this._checked = this._dom.checked;
-          // this.trigger("value");
           return this._checked;
         }
 
@@ -2705,7 +2702,7 @@
 
         if (typeof this._dom.value != "undefined" || this._type == "option") {
           this._dom.value = v;
-        } else {}
+        }
 
         this._value = v;
         this.trigger("value", v);
@@ -6361,16 +6358,6 @@
           options._waitClass = this._createWorkerClass(elemName, options.webWorkers);
         }
         this._addCustomTagFn(elemName);
-
-        /*
-        _e().createClass({
-        webWorkers : {
-        hello : function(data, callback) {
-            
-        }
-        }
-        })
-        */
       };
 
       /**
@@ -7889,16 +7876,6 @@
          */
         _myTrait_.forRules = function (fn) {
           // TODO: consider how the if media rules need to be given using this function
-          /*
-          var mediaList = [];
-          if( this._mediaHash ) {
-          for(var n in this._mediaHash) {
-          if(this._mediaHash.hasOwnProperty(n)) {
-            
-          }
-          }
-          }*/
-
           for (var n in this._data) {
             if (this._data.hasOwnProperty(n)) {
               fn.apply(this, [n, this._assign(this._data[n])]);
@@ -7967,19 +7944,6 @@
           if (!window.atob && document.all) {
             _IE9Limits = true;
           }
-
-          /*
-          head = document.getElementsByTagName('head')[0];
-          var styleTag = document.createElement('style');
-          styleTag.setAttribute('type', 'text/css');
-          if (styleTag.styleSheet) {   // IE
-          styleTag.styleSheet.cssText = "";
-          } else {                // the world
-          styleTag.appendChild(document.createTextNode(""));
-          }
-          head.appendChild(styleTag);      
-          this._styleTag = styleTag;
-          */
 
           this._virtualTagId = _virtualSize++;
           _virtualTags[this._virtualTagId] = ""; // make it string to support array join
@@ -8119,8 +8083,6 @@
          */
         _myTrait_.updateStyleTag = function (cssText) {
 
-          // console.log(cssText);
-
           try {
             if (_IE9Limits) {
               // if the styletag does not exist create it for IE9
@@ -8160,18 +8122,6 @@
                 styleTag.removeChild(old);
               }
             }
-            /*
-            head = document.getElementsByTagName('head')[0];
-            var styleTag = document.createElement('style');
-            styleTag.setAttribute('type', 'text/css');
-            if (styleTag.styleSheet) {   // IE
-            styleTag.styleSheet.cssText = "";
-            } else {                // the world
-            styleTag.appendChild(document.createTextNode(""));
-            }
-            head.appendChild(styleTag);      
-            this._styleTag = styleTag;
-            */
           } catch (e) {
             if (console && console.log) console.log(e.message, cssText);
           }
@@ -8843,38 +8793,15 @@
     define(__amdDefs__);
   }
 }).call(new Function("return this")());
-/*
-testDiv3.drag( function(dv) {
-var box = body.offset();
-// the offset is required though...
-console.log(testDiv3.offset());
-var point = totalMatrix.dragTransformation( dv, { 
-    screenWidth : 4000, 
-    screenHeight: 3000, 
-    perspective:101133300, offset : {
-        x: box.left, y : box.top}
-    } );
-*/
 
 // should we have named styles... perhaps... TODO
 
 // console.log("**** SHOULD NOT ITERATE CHILDREN *****");
 
-// this._dom.innerHTML = v;
-
 // TODO: error handling postMessage("no instance found");
 
 // --> might send the message back to the worker
 // TODO: send msg back
-// first.resolve(true);
-/*
-me._callWorker(_worker, "/", "createClass",  {
-className: className,
-code: me._serializeClass(classObj)
-}, function( result ) {
-success( result ); 
-});
-*/
 
 // do we patch inputs ?
 
