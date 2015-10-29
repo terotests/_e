@@ -8803,7 +8803,5 @@
 // --> might send the message back to the worker
 // TODO: send msg back
 
-// do we patch inputs ?
-
 //console.log("Attr set to ", n);
 //console.trace();
