@@ -1,4 +1,4 @@
-# _e or "jee" - pure JavaScript UI library
+# _e - UI component library
 
 NOTE: This is just early release of this version, bugs may appear.
 
@@ -993,7 +993,6 @@ MIT. Currently use at own risk.
 ##### trait CSSTransform
 
 - [_resetProjection](README.md#__resetProjection)
-- [applyTransforms](README.md#_applyTransforms)
 - [compStyle](README.md#_compStyle)
 - [createEffect](README.md#_createEffect)
 - [css](README.md#_css)
@@ -1002,15 +1001,11 @@ MIT. Currently use at own risk.
 - [findScreen](README.md#_findScreen)
 - [findTransform](README.md#_findTransform)
 - [hide](README.md#_hide)
-- [scale](README.md#_scale)
 - [setProjectionScreen](README.md#_setProjectionScreen)
 - [setTransformMatrix](README.md#_setTransformMatrix)
 - [show](README.md#_show)
 - [style](README.md#_style)
 - [styleString](README.md#_styleString)
-- [transform](README.md#_transform)
-- [transformOrigin](README.md#_transformOrigin)
-- [transformString](README.md#_transformString)
 - [updateTransFromMatrix](README.md#_updateTransFromMatrix)
 
 
@@ -1081,8 +1076,6 @@ MIT. Currently use at own risk.
 - [checked](README.md#InputHandling_checked)
 - [clearOptions](README.md#InputHandling_clearOptions)
 - [focus](README.md#InputHandling_focus)
-- [getClipboard](README.md#InputHandling_getClipboard)
-- [localStore](README.md#InputHandling_localStore)
 - [options](README.md#InputHandling_options)
 - [toBacon](README.md#InputHandling_toBacon)
 - [val](README.md#InputHandling_val)
@@ -1096,40 +1089,17 @@ MIT. Currently use at own risk.
 ##### trait domShortcuts
 
 - [_addCustomTagFn](README.md#domShortcuts__addCustomTagFn)
-- [a](README.md#domShortcuts_a)
+- [_initShortcuts](README.md#domShortcuts__initShortcuts)
 - [attr](README.md#domShortcuts_attr)
-- [b](README.md#domShortcuts_b)
-- [button](README.md#domShortcuts_button)
 - [canvas](README.md#domShortcuts_canvas)
 - [checkbox](README.md#domShortcuts_checkbox)
 - [clearCanvas](README.md#domShortcuts_clearCanvas)
 - [ctx](README.md#domShortcuts_ctx)
-- [div](README.md#domShortcuts_div)
 - [e](README.md#domShortcuts_e)
-- [form](README.md#domShortcuts_form)
-- [getPixelFn](README.md#domShortcuts_getPixelFn)
-- [h1](README.md#domShortcuts_h1)
-- [h2](README.md#domShortcuts_h2)
-- [h3](README.md#domShortcuts_h3)
-- [h4](README.md#domShortcuts_h4)
-- [img](README.md#domShortcuts_img)
-- [input](README.md#domShortcuts_input)
-- [label](README.md#domShortcuts_label)
-- [li](README.md#domShortcuts_li)
-- [ol](README.md#domShortcuts_ol)
-- [p](README.md#domShortcuts_p)
-- [pre](README.md#domShortcuts_pre)
-- [processPixels](README.md#domShortcuts_processPixels)
 - [row](README.md#domShortcuts_row)
 - [shortcutFor](README.md#domShortcuts_shortcutFor)
-- [span](README.md#domShortcuts_span)
 - [src](README.md#domShortcuts_src)
-- [strong](README.md#domShortcuts_strong)
-- [table](README.md#domShortcuts_table)
-- [textarea](README.md#domShortcuts_textarea)
 - [toDataURL](README.md#domShortcuts_toDataURL)
-- [ul](README.md#domShortcuts_ul)
-- [video](README.md#domShortcuts_video)
 
 
     
@@ -1250,10 +1220,8 @@ MIT. Currently use at own risk.
 - [dim](README.md#_dim)
 - [hexToRgb](README.md#_hexToRgb)
 - [hexToYuv](README.md#_hexToYuv)
-- [hsvToRgb](README.md#_hsvToRgb)
 - [mix](README.md#_mix)
 - [rgbToHex](README.md#_rgbToHex)
-- [rgbToHsv](README.md#_rgbToHsv)
 - [rgbToYuv](README.md#_rgbToYuv)
 - [toRGB](README.md#_toRGB)
 - [toRSpace](README.md#_toRSpace)
@@ -1263,8 +1231,6 @@ MIT. Currently use at own risk.
 - [yuvToRgb](README.md#_yuvToRgb)
 
 
-    
-    
     
     
     
@@ -1400,7 +1366,6 @@ MIT. Currently use at own risk.
 - [every](README.md#later_every)
 - [once](README.md#later_once)
 - [onFrame](README.md#later_onFrame)
-- [polyfill](README.md#later_polyfill)
 - [removeFrameFn](README.md#later_removeFrameFn)
 
 
@@ -1460,29 +1425,6 @@ MIT. Currently use at own risk.
 
       
     
-      
-    
-      
-            
-#### Class clipBoard
-
-
-- [del](README.md#clipBoard_del)
-- [fromClipboard](README.md#clipBoard_fromClipboard)
-- [get](README.md#clipBoard_get)
-- [localStoreSupport](README.md#clipBoard_localStoreSupport)
-- [set](README.md#clipBoard_set)
-- [toClipboard](README.md#clipBoard_toClipboard)
-
-
-
-   
-
-
-   
-
-
-
       
     
       
@@ -3160,23 +3102,14 @@ options.lastHeight = options.height;
 options.has3D = true;
 ```
 
-### <a name="_applyTransforms"></a>::applyTransforms(tx)
-
-
-*The source code for the function*:
-```javascript
-var d = this._dom;
-d.style["transform"] = tx;
-d.style["-webkit-transform"] = tx; 
-d.style["-moz-transform"] = tx; 
-d.style["-ms-transform"] = tx; 
-this.trigger("transform");
-return this;
-```
-
 ### <a name="_compStyle"></a>::compStyle(t)
 
+Returns object, which will return computed style for the element. The returned object can be used as
 
+```javascript
+var cs = el.compStyle();
+cs.get("color");
+```
 *The source code for the function*:
 ```javascript
 var elem = this._dom;
@@ -3428,20 +3361,6 @@ if(!_effects) {
 }
 ```
         
-### <a name="_scale"></a>::scale(scaleFactor)
-`scaleFactor` Scale factor for element 0..1
- 
-
-Scales the element, the scaling origin is 0 0
-*The source code for the function*:
-```javascript
-
-// force the transform origin to be 0,0 when scaling
-this.setTransformOrigion( 0, 0 );
-
-
-```
-
 ### <a name="_setProjectionScreen"></a>::setProjectionScreen(options)
 `options` The screen definition
  
@@ -3555,59 +3474,6 @@ return this._localStyle;
 // TODO: binding the style string???
 this._dom.style.cssText = value;
 return this;
-```
-
-### <a name="_transform"></a>::transform(name, value)
-
-
-*The source code for the function*:
-```javascript
-if(!this._transforms) this._transforms = [];
-if(typeof(value)=="undefined") {
-    
-    if(this._transforms.indexOf(name)>=0) {
-        var vi = this._transforms.indexOf(name);
-        var val = this._transforms[vi+1];
-        var v = val.substr(1, val.length-2);
-        return v;
-    }
-    return;
-}
-if(this._transforms.indexOf(name)==-1) {
-    this._transforms.push(name);
-    this._transforms.push("("+value+")");
-    this._transforms.push(" ");
-} else {
-    var vi = this._transforms.indexOf(name);
-    this._transforms[vi+1] = "("+value+")";
-}
-
-var tx = this._transforms.join("");
-this.applyTransforms(tx);
-return this;
-```
-
-### <a name="_transformOrigin"></a>::transformOrigin(tx)
-
-
-*The source code for the function*:
-```javascript
-var d = this._dom;
-d.style["transform-origin"] = tx;
-d.style["-webkit-transform-origin"] = tx; 
-d.style["-moz-transform-origin"] = tx; 
-d.style["-ms-transform-origin"] = tx; 
-this.trigger("transform-origin");
-return this;
-```
-
-### <a name="_transformString"></a>::transformString(t)
-
-
-*The source code for the function*:
-```javascript
-if(!this._transforms) return "";
-return this._transforms.join("");
 ```
 
 ### <a name="_updateTransFromMatrix"></a>::updateTransFromMatrix(fromMatrix)
@@ -4705,37 +4571,6 @@ if(this._contentObj) {
 if(this._dom.focus) this._dom.focus();
 ```
 
-### <a name="InputHandling_getClipboard"></a>InputHandling::getClipboard(name)
-
-
-*The source code for the function*:
-```javascript
-return clipBoard( name );
-```
-
-### <a name="InputHandling_localStore"></a>InputHandling::localStore(withName)
-
-
-*The source code for the function*:
-```javascript
-
-
-var cb = clipBoard(withName);
-
-var val = cb.fromClipboard();
-if(val) {
-    this.val( val );
-}
-
-var me = this;
-this.on("value", function() {
-    cb.toClipboard( me.val() );
-})
-
-// toClipboard
-return this;
-```
-
 ### <a name="InputHandling_options"></a>InputHandling::options(list)
 
 
@@ -4782,21 +4617,7 @@ if(this._tag=="input") {
         if(document.body) {
             document.body.appendChild( this._dataList._dom );
         }
-    } else {
-
-    }
-    /*
-    <label>Your favorite fruit:
-<datalist id="fruits">
-<option value="Blackberry">Blackberry</option>
-<option value="Blackcurrant">Blackcurrant</option>
-<option value="Blueberry">Blueberry</option>
-<!-- … -->
-</datalist>
-If other, please specify:
-<input type="text" name="fruit" list="fruits">
-</label>
-    */
+    } 
 }
 return this;
 ```
@@ -4868,6 +4689,8 @@ The class has following internal singleton variables:
         
 * _shInit
         
+* _elemInit
+        
         
 ### <a name="domShortcuts__addCustomTagFn"></a>domShortcuts::_addCustomTagFn(name)
 `name` Name of the custom tag
@@ -4883,13 +4706,24 @@ this.extendAll(name, function() {
 });
 ```
 
-### <a name="domShortcuts_a"></a>domShortcuts::a(className, attrs)
+### <a name="domShortcuts__initShortcuts"></a>domShortcuts::_initShortcuts(t)
 
-
+Some of the methods have shortcuts
 *The source code for the function*:
 ```javascript
-var el = this.shortcutFor("a", className, attrs);
-return el;
+// _elemNames
+if(_elemInit) return;
+_elemInit = true;
+var _elemNames = ["a", "b", "h1","h2","h3","h4","h5","h6","button","checkbox",
+"div","form","img","input","label","li","ol","p","pre","span","strong","table","textarea","ul","video"];
+
+for(var n in _elemNames) {
+    if(_elemNames.hasOwnProperty(n)) {
+        _myTrait_[n] = function(n, className, attrs) {
+            return this.shortcutFor(n, className, attrs);
+        }
+    }
+}
 ```
 
 ### <a name="domShortcuts_attr"></a>domShortcuts::attr(v, v2)
@@ -4955,24 +4789,6 @@ if(this.isObject(v)) {
 return this;
 ```
 
-### <a name="domShortcuts_b"></a>domShortcuts::b(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("b", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_button"></a>domShortcuts::button(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("button", className, attrs);
-return el;
-```
-
 ### <a name="domShortcuts_canvas"></a>domShortcuts::canvas(className, attrs)
 
 
@@ -5015,15 +4831,6 @@ if(this._dom.getContext) {
 }
 ```
 
-### <a name="domShortcuts_div"></a>domShortcuts::div(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("div", className, attrs);
-return el;
-```
-
 ### <a name="domShortcuts_e"></a>domShortcuts::e(elemName, className, attrs)
 
 
@@ -5063,196 +4870,12 @@ var el = this.shortcutFor.apply( this, argList); // (elemName, className, attrs)
 return el;
 ```
 
-### <a name="domShortcuts_form"></a>domShortcuts::form(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("form", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_getPixelFn"></a>domShortcuts::getPixelFn(pixelData)
-
-
-*The source code for the function*:
-```javascript
-
-var ctx = this.ctx();
-
-if(pixelData && pixelData._dom) {
-    ctx = pixelData.ctx();
-    pixelData = ctx.getImageData(0,0,pixelData._canWidth, pixelData._canWidth);
-} else {
-    // Get the context...
-    if(!pixelData) pixelData = ctx.getImageData(0,0,this._canWidth,this._canWidth);
-}
-
-var data = pixelData.data;
-
-return function(x,y) {
-    var index = (x + y * pixelData.width) * 4;
-    return  {
-        x : x,
-        y : y,
-        r : data[index+0],
-        g : data[index+1],
-        b : data[index+2],
-        a : data[index+3]
-    };      
-};
-
-```
-
-### <a name="domShortcuts_h1"></a>domShortcuts::h1(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("h1", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_h2"></a>domShortcuts::h2(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("h2", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_h3"></a>domShortcuts::h3(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("h3", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_h4"></a>domShortcuts::h4(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("h4", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_img"></a>domShortcuts::img(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("img", className, attrs);
-return el;
-```
-
 ### domShortcuts::constructor( t )
 
 ```javascript
-
-
+if(!_elemInit) this._initShortcuts();
 ```
         
-### <a name="domShortcuts_input"></a>domShortcuts::input(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("input", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_label"></a>domShortcuts::label(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("label", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_li"></a>domShortcuts::li(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("li", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_ol"></a>domShortcuts::ol(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("ol", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_p"></a>domShortcuts::p(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("p", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_pre"></a>domShortcuts::pre(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("pre", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_processPixels"></a>domShortcuts::processPixels(fn, pixelData, doNotUpdate)
-
-
-*The source code for the function*:
-```javascript
-
-var ctx = this.ctx();
-
-// Get the context...
-if(!pixelData) pixelData = ctx.getImageData(0,0,this._canWidth,this._canHeight);
-
-var data = pixelData.data;
-var index = 0;
-for(var y=0; y<this._canHeight; y++) {
-    for(var x=0; x<this._canWidth; x++) {
-        var r = data[index],
-            g = data[index+1],
-            b = data[index+2],
-            a = data[index+3];
-            
-        var p =  {
-              x : x,
-              y : y, 
-              r : r, 
-              g : g, 
-              b : b, 
-              a : a };
-        fn(p);
-        if(p.r != r ) data[index] = p.r;
-        if(p.g != g ) data[index+1] = p.g;
-        if(p.b != b ) data[index+2] = p.b;
-        if(p.a != a ) data[index+3] = p.a;
-        
-        index+=4;
-    }
-}
-if(!doNotUpdate) {
-    console.log(this._canWidth, this._canHeight);
-    ctx.putImageData(pixelData, 0, 0, 0, 0, this._canWidth, this._canHeight );
-}
-return pixelData;
-```
-
 ### <a name="domShortcuts_row"></a>domShortcuts::row(params)
 
 
@@ -5365,15 +4988,6 @@ return el;
 */
 ```
 
-### <a name="domShortcuts_span"></a>domShortcuts::span(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("span", className, attrs);
-return el;
-```
-
 ### <a name="domShortcuts_src"></a>domShortcuts::src(src)
 
 
@@ -5397,17 +5011,10 @@ if(this._tag=="canvas") {
     me._imgLoaded = false;
     img.src(src);
     img.on("load", function() {
-
         var im = img._dom;
-
-        //me.width(im.width);
-        //me.height(im.height);
-        
         if(!me._canWidth) {
-
             me.q.attr("width",im.width);
             me.q.attr("height",im.height);            
-            
             me._canWidth  = im.width;
             me._canHeight = im.height;            
         }
@@ -5424,33 +5031,6 @@ this.q.attr("src",src);
 return this;
 ```
 
-### <a name="domShortcuts_strong"></a>domShortcuts::strong(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("strong", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_table"></a>domShortcuts::table(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("table", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_textarea"></a>domShortcuts::textarea(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("textarea", className, attrs);
-return el;
-```
-
 ### <a name="domShortcuts_toDataURL"></a>domShortcuts::toDataURL(format, quality)
 
 
@@ -5460,24 +5040,6 @@ return el;
 if(!quality) quality = 1;
 
 return this._dom.toDataURL(format || "image/png", quality);
-```
-
-### <a name="domShortcuts_ul"></a>domShortcuts::ul(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("ul", className, attrs);
-return el;
-```
-
-### <a name="domShortcuts_video"></a>domShortcuts::video(className, attrs)
-
-
-*The source code for the function*:
-```javascript
-var el = this.shortcutFor("video", className, attrs);
-return el;
 ```
 
 
@@ -7800,110 +7362,25 @@ var me = this;
 return me.rgbToYuv( me.toRGB(hexVal) );
 ```
 
-### <a name="_hsvToRgb"></a>::hsvToRgb(c)
-
-
-*The source code for the function*:
-```javascript
-var r, g, b;
-var i;
-var f, p, q, t;
-
-// Make sure our arguments stay in-range
-var h = Math.max(0, Math.min(360, c.h));
-var s = Math.max(0, Math.min(100, c.s));
-var v = Math.max(0, Math.min(100, c.v));
-
-// We accept saturation and value arguments from 0 to 100 because that's
-// how Photoshop represents those values. Internally, however, the
-// saturation and value are calculated from a range of 0 to 1. We make
-// That conversion here.
-s /= 100;
-v /= 100;
-
-if(s == 0) {
-    // Achromatic (grey)
-    r = g = b = v;
-    return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255)};
-}
-
-h /= 60; // sector 0 to 5
-i = Math.floor(h);
-f = h - i; // factorial part of h
-p = v * (1 - s);
-q = v * (1 - s * f);
-t = v * (1 - s * (1 - f));
-
-switch(i) {
-    case 0:
-        r = v;
-        g = t;
-        b = p;
-        break;
-
-    case 1:
-        r = q;
-        g = v;
-        b = p;
-        break;
-
-    case 2:
-        r = p;
-        g = v;
-        b = t;
-        break;
-
-    case 3:
-        r = p;
-        g = q;
-        b = v;
-        break;
-
-    case 4:
-        r = t;
-        g = p;
-        b = v;
-        break;
-
-    default: // case 5:
-        r = v;
-        g = p;
-        b = q;
-}
-
-return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255)};
-```
-
 ### ::constructor( t )
 
 ```javascript
 
 if(!colors) {
-    colors = {"none": "#ffffff", "aliceblue":"#f0f8ff","antiquewhite":"#faebd7","aqua":"#00ffff","aquamarine":"#7fffd4","azure":"#f0ffff",
-        "beige":"#f5f5dc","bisque":"#ffe4c4","black":"#000000","blanchedalmond":"#ffebcd","blue":"#0000ff","blueviolet":"#8a2be2","brown":"#a52a2a","burlywood":"#deb887",
-        "cadetblue":"#5f9ea0","chartreuse":"#7fff00","chocolate":"#d2691e","coral":"#ff7f50","cornflowerblue":"#6495ed","cornsilk":"#fff8dc","crimson":"#dc143c","cyan":"#00ffff",
-        "darkblue":"#00008b","darkcyan":"#008b8b","darkgoldenrod":"#b8860b","darkgray":"#a9a9a9","darkgreen":"#006400","darkkhaki":"#bdb76b","darkmagenta":"#8b008b","darkolivegreen":"#556b2f",
-        "darkorange":"#ff8c00","darkorchid":"#9932cc","darkred":"#8b0000","darksalmon":"#e9967a","darkseagreen":"#8fbc8f","darkslateblue":"#483d8b","darkslategray":"#2f4f4f","darkturquoise":"#00ced1",
-        "darkviolet":"#9400d3","deeppink":"#ff1493","deepskyblue":"#00bfff","dimgray":"#696969","dodgerblue":"#1e90ff",
-        "firebrick":"#b22222","floralwhite":"#fffaf0","forestgreen":"#228b22","fuchsia":"#ff00ff",
-        "gainsboro":"#dcdcdc","ghostwhite":"#f8f8ff","gold":"#ffd700","goldenrod":"#daa520","gray":"#808080","green":"#008000","greenyellow":"#adff2f",
-        "honeydew":"#f0fff0","hotpink":"#ff69b4",
-        "indianred":"#cd5c5c","indigo ":"#4b0082","ivory":"#fffff0","khaki":"#f0e68c",
-        "lavender":"#e6e6fa","lavenderblush":"#fff0f5","lawngreen":"#7cfc00","lemonchiffon":"#fffacd","lightblue":"#add8e6","lightcoral":"#f08080","lightcyan":"#e0ffff","lightgoldenrodyellow":"#fafad2",
-        "lightgrey":"#d3d3d3","lightgreen":"#90ee90","lightpink":"#ffb6c1","lightsalmon":"#ffa07a","lightseagreen":"#20b2aa","lightskyblue":"#87cefa","lightslategray":"#778899","lightsteelblue":"#b0c4de",
-        "lightyellow":"#ffffe0","lime":"#00ff00","limegreen":"#32cd32","linen":"#faf0e6",
-        "magenta":"#ff00ff","maroon":"#800000","mediumaquamarine":"#66cdaa","mediumblue":"#0000cd","mediumorchid":"#ba55d3","mediumpurple":"#9370d8","mediumseagreen":"#3cb371","mediumslateblue":"#7b68ee",
-        "mediumspringgreen":"#00fa9a","mediumturquoise":"#48d1cc","mediumvioletred":"#c71585","midnightblue":"#191970","mintcream":"#f5fffa","mistyrose":"#ffe4e1","moccasin":"#ffe4b5",
-        "navajowhite":"#ffdead","navy":"#000080",
-        "oldlace":"#fdf5e6","olive":"#808000","olivedrab":"#6b8e23","orange":"#ffa500","orangered":"#ff4500","orchid":"#da70d6",
-        "palegoldenrod":"#eee8aa","palegreen":"#98fb98","paleturquoise":"#afeeee","palevioletred":"#d87093","papayawhip":"#ffefd5","peachpuff":"#ffdab9","peru":"#cd853f","pink":"#ffc0cb","plum":"#dda0dd","powderblue":"#b0e0e6","purple":"#800080",
-        "red":"#ff0000","rosybrown":"#bc8f8f","royalblue":"#4169e1",
-        "saddlebrown":"#8b4513","salmon":"#fa8072","sandybrown":"#f4a460","seagreen":"#2e8b57","seashell":"#fff5ee","sienna":"#a0522d","silver":"#c0c0c0","skyblue":"#87ceeb","slateblue":"#6a5acd","slategray":"#708090","snow":"#fffafa","springgreen":"#00ff7f","steelblue":"#4682b4",
-        "tan":"#d2b48c","teal":"#008080","thistle":"#d8bfd8","tomato":"#ff6347","turquoise":"#40e0d0",
-        "violet":"#ee82ee",
-        "wheat":"#f5deb3","white":"#ffffff","whitesmoke":"#f5f5f5",
-        "yellow":"#ffff00","yellowgreen":"#9acd32"};
-    }
+    colors = {"none": "#ffffff", 
+        "black":"#000000",
+        "blue":"#0000ff",
+        "brown":"#a52a2a",
+        "cornflowerblue":"#6495ed",
+        "cyan":"#00ffff",
+        "darkblue":"#00008b","darkcyan":"#008b8b",
+        "gray":"#808080","green":"#008000",
+        "magenta":"#ff00ff","orange":"#ffa500",
+        "pink":"#ffc0cb","purple":"#800080",
+        "red":"#ff0000","turquoise":"#40e0d0",
+        "violet":"#ee82ee", "white":"#ffffff",
+        "yellow":"#ffff00"};
+}
 ```
         
 ### <a name="_mix"></a>::mix(c1, c2, amount)
@@ -7930,50 +7407,6 @@ return this.yuvConversion2( c1,c2, function(y1,y2) {
 ```javascript
 var me = this;
 return "#" + me.componentToHex(p.r) + me.componentToHex(p.g) + me.componentToHex(p.b);
-```
-
-### <a name="_rgbToHsv"></a>::rgbToHsv(c)
-
-
-*The source code for the function*:
-```javascript
-var rr, gg, bb,
-    r = c.r / 255,
-    g = c.g / 255,
-    b = c.b / 255,
-    h, s,
-    v = Math.max(r, g, b),
-    diff = v - Math.min(r, g, b),
-    diffc = function(c){
-        return (v - c) / 6 / diff + 1 / 2;
-    };
-
-if (diff == 0) {
-    h = s = 0;
-} else {
-    s = diff / v;
-    rr = diffc(r);
-    gg = diffc(g);
-    bb = diffc(b);
-
-    if (r === v) {
-        h = bb - gg;
-    }else if (g === v) {
-        h = (1 / 3) + rr - bb;
-    }else if (b === v) {
-        h = (2 / 3) + gg - rr;
-    }
-    if (h < 0) {
-        h += 1;
-    }else if (h > 1) {
-        h -= 1;
-    }
-}
-return {
-    h: Math.round(h * 360),
-    s: Math.round(s * 100),
-    v: Math.round(v * 100)
-};
 ```
 
 ### <a name="_rgbToYuv"></a>::rgbToYuv(c)
@@ -8066,8 +7499,6 @@ return {    r : this.toRSpace(255*(Y+ 0 * U + 1.13983 * V)),
 ```
 
 
-    
-    
     
     
     
@@ -8339,11 +7770,7 @@ o.uploadFiles = function(vars) {
     }
     form._dom.target = frame_id; //'my_iframe' is the name of the iframe
 	form._dom.submit();
-	/*
-	uplFields.clear();
-	fileCnt=0;
-	createUploadField();
-	*/
+
 }
 
 if(options.getUploader) {
@@ -9875,32 +9302,19 @@ if(this._sys[en]) return false;
 this._sys[en] = true;
 
 var me = this;
-
-if(this._dom.attachEvent) {
-    this._dom.attachEvent("on"+en, function(e) {
+this._dom.addEventListener(en, function(e) {
         e = e || window.event;
         me._event = e;
-        fn();
         if(stop) {
-            e = window.event;
-            if(e) e.cancelBubble = true;
-        }
-        });
-} else {
-    this._dom.addEventListener(en, function(e) {
-            e = e || window.event;
-            me._event = e;
-            if(stop) {
-                if(e && e.stopPropagation) {
-                    e.stopPropagation();
-                } else {
-                   e = window.event;
-                   e.cancelBubble = true;
-                }
+            if(e && e.stopPropagation) {
+                e.stopPropagation();
+            } else {
+               e = window.event;
+               e.cancelBubble = true;
             }
-        fn();
-        });
-}                
+        }
+    fn();
+    });
 return true;
 ```
 
@@ -10193,7 +9607,6 @@ _everies[name] = {
 if(!_initDone) {
    this._easeFns();
    _localCnt=1;
-   this.polyfill();
  
    var frame, cancelFrame;
    if(typeof(window) != "undefined") {
@@ -10335,14 +9748,6 @@ _oneTimers[key] = [fn,value];
 _framers.push(fn);
 ```
 
-### <a name="later_polyfill"></a>later::polyfill(t)
-
-
-*The source code for the function*:
-```javascript
-// --- let's not ---
-```
-
 ### <a name="later_removeFrameFn"></a>later::removeFrameFn(fn)
 
 
@@ -10413,7 +9818,11 @@ var o = {}, args;
 if(this.isArray(objectList)) {
     args = objectList;
 } else {
-    args = Array.prototype.slice.call(arguments);
+  var len = arguments.length;
+  var args = new Array(len);
+  for (var i = 0; i < len; i++) {
+    args[i] = arguments[i];
+  }
 }
 args.forEach(function(rules) {
             for(var n in rules) {
@@ -11055,130 +10464,6 @@ return t === Object(t);
 
       
     
-      
-    
-      
-            
-# Class clipBoard
-
-
-The class has following internal singleton variables:
-        
-* _hasSupport
-        
-        
-### <a name="clipBoard_del"></a>clipBoard::del(name)
-
-
-*The source code for the function*:
-```javascript
-
-if( this.localStoreSupport() ) {
-    localStorage.removeItem(name);
-}
-else {
-    this.set(name,"",-1);
-}
-
-```
-
-### <a name="clipBoard_fromClipboard"></a>clipBoard::fromClipboard(opts)
-
-
-*The source code for the function*:
-```javascript
-
-var str = this.get( this._name  );
-var o = JSON.parse( str );
-
-return o;
-```
-
-### <a name="clipBoard_get"></a>clipBoard::get(name)
-
-
-*The source code for the function*:
-```javascript
-
-if( this.localStoreSupport() ) {
-    return localStorage.getItem(name);
-}
-else {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-```
-
-### clipBoard::constructor( name )
-
-```javascript
-
-this._name = name;
-```
-        
-### <a name="clipBoard_localStoreSupport"></a>clipBoard::localStoreSupport(t)
-
-
-*The source code for the function*:
-```javascript
-if(_hasSupport) return _hasSupport;
-
-try {
-    _hasSupport = 'localStorage' in window && window['localStorage'] !== null;
-    return  _hasSupport;
-} catch (e) {
-    return false;
-}
-```
-
-### <a name="clipBoard_set"></a>clipBoard::set(name, value, days)
-
-
-*The source code for the function*:
-```javascript
-
-if (days) {
-    var date = new Date();
-    date.setTime(date.getTime()+(days*24*60*60*1000));
-    var expires = "; expires="+date.toGMTString();
-}
-else {
-    var expires = "";
-}
-if( this.localStoreSupport() ) {
-    localStorage.setItem(name, value);
-}
-else {
-    document.cookie = name+"="+value+expires+"; path=/";
-}
-```
-
-### <a name="clipBoard_toClipboard"></a>clipBoard::toClipboard(items)
-
-
-*The source code for the function*:
-```javascript
-this.set(this._name, JSON.stringify( items ) );
-
-return this;
-
-```
-
-
-
-   
-
-
-   
-
-
-
       
     
       

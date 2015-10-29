@@ -7351,7 +7351,6 @@
           if (!_initDone) {
             this._easeFns();
             _localCnt = 1;
-            this.polyfill();
 
             var frame, cancelFrame;
             if (typeof window != "undefined") {
@@ -7488,11 +7487,6 @@
 
           _framers.push(fn);
         };
-
-        /**
-         * @param float t
-         */
-        _myTrait_.polyfill = function (t) {};
 
         /**
          * @param float fn
@@ -8886,5 +8880,3 @@ success( result );
 
 //console.log("Attr set to ", n);
 //console.trace();
-
-// --- let's not ---
