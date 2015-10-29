@@ -577,8 +577,15 @@
        * @param float endFn
        */
       _myTrait_.draggable = function (startFn, middleFn, endFn) {
+
+        // prevent setting two times the drag
+        if (this._dragEnabled) return;
+
         var _eg = this.__singleton();
         _eg.draggable(this);
+
+        // sets the item as draggable item..
+        this._dragEnabled = true;
 
         if (startFn) this.on("startdrag", startFn);
         if (middleFn) this.on("drag", middleFn);
@@ -1736,7 +1743,6 @@
           var o = this;
 
           this.on("mouseenter", function () {
-            // console.log("Entered...");
             o._hovering = true;
           });
           this.on("mouseleave", function () {
@@ -1905,15 +1911,28 @@
 
         if (en == "mouseenter") {
 
+          // this._dragEnabled
+          var gs = this.__singleton();
           this.bindSysEvent("mouseover", function (e) {
             e = e || window.event;
             if (me._hover) return;
             me._hover = true;
             me._event = e;
-            if (me._parent) {
-              if (!me._parent._hover) {
-                me._parent.trigger("mouseenter");
+            var dtSet = false;
+            if (me._dragEnabled) {
+              gs.setDragTarget(me);
+              dtSet = true;
+            }
+            var pp = me._parent;
+            while (pp && !pp._hover) {
+              pp.trigger("mouseenter");
+              if (!dtSet) {
+                if (pp._dragEnabled) {
+                  gs.setDragTarget(pp);
+                  dtSet = true;
+                }
               }
+              pp = pp._parent;
             }
             me.trigger("mouseenter");
           });
@@ -6791,6 +6810,11 @@
             return str;
           };
 
+          var currentDragTarget;
+          o.setDragTarget = function (elem) {
+            currentDragTarget = elem;
+          };
+
           o.addEventListener(document, "mousemove", function (e) {
 
             e = e || window.event;
@@ -6839,6 +6863,26 @@
             if (_dragging) return;
             var found = false;
 
+            if (currentDragTarget && currentDragTarget.isHovering()) {
+              var e = currentDragTarget;
+              // console.log("Could start drag");
+              var off = e.offset();
+              o.setDragged(e);
+              _dv.sx = _mouse.x;
+              _dv.sy = _mouse.y;
+              _dv.mx = _mouse.x;
+              _dv.my = _mouse.y;
+              _dv.dx = 0;
+              _dv.dy = 0;
+              _dv.x = off.left;
+              _dv.y = off.top;
+              found = true;
+              e.trigger("startdrag", _dv);
+
+              return true;
+            }
+            return;
+            // TODO: remove lines below
             var candidates = [];
             if (forceElem) {
               candidates.push(forceElem);
