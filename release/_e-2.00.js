@@ -1747,7 +1747,6 @@
     // trait comes here...
 
     (function (_myTrait_) {
-      var _routes;
       var _touchClick;
       var _outInit;
       var _outListeners;
@@ -1783,39 +1782,22 @@
         this._sys[en] = true;
 
         var me = this;
-
-        if (this._dom.attachEvent) {
-          if (!stop) {
-            this._dom.attachEvent("on" + en, fn);
-          } else {
-            this._dom.attachEvent("on" + en, function (e) {
-              e = e || window.event;
-              me._event = e;
-              fn();
-              if (stop) {
-                e = window.event;
-                if (e) e.cancelBubble = true;
-              }
-            });
-          }
+        if (!stop) {
+          this._dom.addEventListener(en, fn);
         } else {
-          if (!stop) {
-            this._dom.addEventListener(en, fn);
-          } else {
-            this._dom.addEventListener(en, function (e) {
-              e = e || window.event;
-              me._event = e;
-              if (stop) {
-                if (e && e.stopPropagation) {
-                  e.stopPropagation();
-                } else {
-                  e = window.event;
-                  e.cancelBubble = true;
-                }
+          this._dom.addEventListener(en, function (e) {
+            e = e || window.event;
+            me._event = e;
+            if (stop) {
+              if (e && e.stopPropagation) {
+                e.stopPropagation();
+              } else {
+                e = window.event;
+                e.cancelBubble = true;
               }
-              fn();
-            });
-          }
+            }
+            fn();
+          });
         }
         return true;
       };
@@ -1831,25 +1813,6 @@
       };
 
       /**
-       * @param string scope
-       * @param float data
-       */
-      _myTrait_.emitValue = function (scope, data) {
-        if (this._controller) {
-          if (this._controller[scope]) {
-            this._controller[scope](data);
-            return;
-          }
-        }
-
-        if (this._valueFn && this._valueFn[scope]) {
-          this._valueFn[scope](data);
-        } else {
-          if (this._parent) this._parent.emitValue(scope, data);
-        }
-      };
-
-      /**
        * @param float dom
        * @param float eventName
        * @param float fn
@@ -1857,31 +1820,19 @@
        */
       _myTrait_.eventBinder = function (dom, eventName, fn, stop) {
         var me = this;
-        if (dom.attachEvent) {
-          dom.attachEvent("on" + eventName, function (e) {
-            e = e || window.event;
-            me._event = e;
-            fn();
-            if (stop) {
+        dom.addEventListener(eventName, function (e) {
+          e = e || window.event;
+          me._event = e;
+          if (stop) {
+            if (e && e.stopPropagation) {
+              e.stopPropagation();
+            } else {
               e = window.event;
-              if (e) e.cancelBubble = true;
+              e.cancelBubble = true;
             }
-          });
-        } else {
-          dom.addEventListener(eventName, function (e) {
-            e = e || window.event;
-            me._event = e;
-            if (stop) {
-              if (e && e.stopPropagation) {
-                e.stopPropagation();
-              } else {
-                e = window.event;
-                e.cancelBubble = true;
-              }
-            }
-            fn();
-          });
-        }
+          }
+          fn();
+        });
       };
 
       /**
@@ -1928,7 +1879,7 @@
        */
       _myTrait_.on = function (en, ef) {
         if (this._contentObj) {
-          return this._contentObj.on.apply(this._contentObj, Array.prototype.slice.call(arguments));
+          return this._contentObj.on(en, ef);
         }
 
         if (!this._ev) this._ev = {};
@@ -2009,7 +1960,6 @@
 
         if (en == "value") {
           this.bindSysEvent("change", function () {
-
             if (me._type == "checkbox") {
               if (me._dom.checked) {
                 me._checked = true;
@@ -2062,66 +2012,34 @@
         }
 
         if (en == "mouseenter") {
-          if (this._dom.attachEvent) {
-            this.bindSysEvent("mouseenter", function (e) {
-              e = e || window.event;
-              if (me._hover) return;
-              me._event = e;
-              me._hover = true;
-              me.trigger("mouseenter");
-            });
-            this.bindSysEvent("mouseleave", function (e) {
-              e = e || window.event;
-              if (!me._hover) return;
-              me._event = e;
-              me._hover = false;
-              me.trigger("mouseleave");
-            });
-          } else {
 
-            this.bindSysEvent("mouseover", function (e) {
-              e = e || window.event;
-              if (me._hover) return;
-              me._hover = true;
-              me._event = e;
-              if (me._parent) {
-                if (!me._parent._hover) {
-                  me._parent.trigger("mouseenter");
-                }
-                // me._parent._childHover = true;
+          this.bindSysEvent("mouseover", function (e) {
+            e = e || window.event;
+            if (me._hover) return;
+            me._hover = true;
+            me._event = e;
+            if (me._parent) {
+              if (!me._parent._hover) {
+                me._parent.trigger("mouseenter");
               }
-              // console.log("Mouse over xxx");
-              me.trigger("mouseenter");
+            }
+            me.trigger("mouseenter");
+          });
+          this.bindSysEvent("mouseout", function (e) {
+            if (!me._hover) return;
+
+            var childHover = false;
+            me.forChildren(function (c) {
+              if (c._hover) childHover = true;
             });
-            this.bindSysEvent("mouseout", function (e) {
-              if (!me._hover) return;
 
-              var childHover = false;
-              me.forChildren(function (c) {
-                if (c._hover) childHover = true;
-              });
-
-              if (childHover) return;
-
-              me._hover = false;
-
-              me.trigger("mouseleave");
-            });
-          }
+            if (childHover) return;
+            me._hover = false;
+            me.trigger("mouseleave");
+          });
         }
 
         return this;
-      };
-
-      /**
-       * @param string scope
-       * @param float fn
-       */
-      _myTrait_.onValue = function (scope, fn) {
-        if (!this._valueFn) {
-          this._valueFn = {};
-        }
-        this._valueFn[scope] = fn;
       };
 
       /**
@@ -2186,41 +2104,6 @@
       };
 
       /**
-       * @param string eventName
-       * @param float fn
-       */
-      _myTrait_.router = function (eventName, fn) {
-
-        var me = this;
-        this._dom.addEventListener(eventName, function (event) {
-          var elem = event.target;
-          if (!elem) return;
-          var routeId = elem.getAttribute("data-routeid");
-          if (routeId) {
-            var obj = _routes[routeId];
-            if (obj) fn(obj);
-          }
-        });
-      };
-
-      /**
-       * @param float obj
-       * @param float recursive
-       */
-      _myTrait_.setRoute = function (obj, recursive) {
-
-        var routeId = this.guid();
-        this._dom.setAttribute("data-routeid", routeId);
-        if (!_routes) _routes = {};
-        if (recursive) {
-          this.forChildren(function (ch) {
-            ch.setRoute(obj, recursive);
-          });
-        }
-        _routes[routeId] = obj;
-      };
-
-      /**
        * triggers event with data and optional function
        * @param string en
        * @param float data
@@ -2228,18 +2111,8 @@
        */
       _myTrait_.trigger = function (en, data, fn) {
 
-        //TODO vaihda kaikki Array.prototype.slice.call -> alla olevaan koodiin
-        /*
-        var len = arguments.length - 1
-        var args = new Array(len)
-        // V8 optimization
-        // https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
-        for (var i = 0; i < len; i++) {
-        args[i] = arguments[i + 1]
-        }
-        */
         if (this._contentObj) {
-          return this._contentObj.trigger.apply(this._contentObj, Array.prototype.slice.call(arguments));
+          return this._contentObj.trigger(en, data, fn);
         }
 
         if (this._delegates) {
