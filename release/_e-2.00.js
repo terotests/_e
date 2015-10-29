@@ -1223,21 +1223,13 @@
       };
 
       /**
-       * @param string tx
-       */
-      _myTrait_.applyTransforms = function (tx) {
-        var d = this._dom;
-        d.style["transform"] = tx;
-        d.style["-webkit-transform"] = tx;
-        d.style["-moz-transform"] = tx;
-        d.style["-ms-transform"] = tx;
-        this.trigger("transform");
-        return this;
-      };
-
-      /**
-       * @param float t
-       */
+      * Returns object, which will return computed style for the element. The returned object can be used as
+      ```javascript
+      var cs = el.compStyle();
+      cs.get(&quot;color&quot;);
+      ```
+      * @param float t  
+      */
       _myTrait_.compStyle = function (t) {
         var elem = this._dom;
         var cs = window.getComputedStyle(elem, null);
@@ -1477,16 +1469,6 @@
       });
 
       /**
-       * Scales the element, the scaling origin is 0 0
-       * @param float scaleFactor  - Scale factor for element 0..1
-       */
-      _myTrait_.scale = function (scaleFactor) {
-
-        // force the transform origin to be 0,0 when scaling
-        this.setTransformOrigion(0, 0);
-      };
-
-      /**
        * @param Object options  - The screen definition
        */
       _myTrait_.setProjectionScreen = function (options) {
@@ -1579,57 +1561,6 @@
         // TODO: binding the style string???
         this._dom.style.cssText = value;
         return this;
-      };
-
-      /**
-       * @param string name
-       * @param string value
-       */
-      _myTrait_.transform = function (name, value) {
-        if (!this._transforms) this._transforms = [];
-        if (typeof value == "undefined") {
-
-          if (this._transforms.indexOf(name) >= 0) {
-            var vi = this._transforms.indexOf(name);
-            var val = this._transforms[vi + 1];
-            var v = val.substr(1, val.length - 2);
-            return v;
-          }
-          return;
-        }
-        if (this._transforms.indexOf(name) == -1) {
-          this._transforms.push(name);
-          this._transforms.push("(" + value + ")");
-          this._transforms.push(" ");
-        } else {
-          var vi = this._transforms.indexOf(name);
-          this._transforms[vi + 1] = "(" + value + ")";
-        }
-
-        var tx = this._transforms.join("");
-        this.applyTransforms(tx);
-        return this;
-      };
-
-      /**
-       * @param float tx
-       */
-      _myTrait_.transformOrigin = function (tx) {
-        var d = this._dom;
-        d.style["transform-origin"] = tx;
-        d.style["-webkit-transform-origin"] = tx;
-        d.style["-moz-transform-origin"] = tx;
-        d.style["-ms-transform-origin"] = tx;
-        this.trigger("transform-origin");
-        return this;
-      };
-
-      /**
-       * @param float t
-       */
-      _myTrait_.transformString = function (t) {
-        if (!this._transforms) return "";
-        return this._transforms.join("");
       };
 
       /**
@@ -5724,11 +5655,6 @@
           }
           form._dom.target = frame_id; //'my_iframe' is the name of the iframe
           form._dom.submit();
-          /*
-          uplFields.clear();
-          fileCnt=0;
-          createUploadField();
-          */
         };
 
         if (options.getUploader) {
@@ -7130,32 +7056,19 @@
           this._sys[en] = true;
 
           var me = this;
-
-          if (this._dom.attachEvent) {
-            this._dom.attachEvent("on" + en, function (e) {
-              e = e || window.event;
-              me._event = e;
-              fn();
-              if (stop) {
+          this._dom.addEventListener(en, function (e) {
+            e = e || window.event;
+            me._event = e;
+            if (stop) {
+              if (e && e.stopPropagation) {
+                e.stopPropagation();
+              } else {
                 e = window.event;
-                if (e) e.cancelBubble = true;
+                e.cancelBubble = true;
               }
-            });
-          } else {
-            this._dom.addEventListener(en, function (e) {
-              e = e || window.event;
-              me._event = e;
-              if (stop) {
-                if (e && e.stopPropagation) {
-                  e.stopPropagation();
-                } else {
-                  e = window.event;
-                  e.cancelBubble = true;
-                }
-              }
-              fn();
-            });
-          }
+            }
+            fn();
+          });
           return true;
         };
 
@@ -8464,26 +8377,9 @@
           duration: "0.4s",
           "iteration-count": 1 }, outPosition, 0.5, inPosition, inPosition);
 
-        if (!String.prototype.trim) {
-          (function () {
-            // Make sure we trim BOM and NBSP
-            var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-            String.prototype.trim = function () {
-              return this.replace(rtrim, "");
-            };
-          })();
-        }
-
         var _eg = _ee_ = (function () {
 
           var o = {};
-          var _compreg = {};
-
-          var _dataId = 1;
-          var _dataReg = {};
-          var _dataBinds = {};
-
-          var _listeners = {};
 
           var _dragging = false;
           var _dragItem = null;
@@ -8493,7 +8389,7 @@
             x: 0,
             y: 0
           };
-          var _dragVector = {
+          var _dv = {
             sx: 0,
             sy: 0,
             dx: 0,
@@ -8502,60 +8398,8 @@
 
           o._cssfactor = 1;
 
-          o.domIndex = {};
-
-          var domGuidName = "data-egid";
-          var domGuidPrefix = "huNqe7q1";
-          var domGuidIndex = 1;
-
-          // component or object which responds to evens...
-          o.addListener = function (name, obj) {
-
-            if (!_listeners[name]) _listeners[name] = [];
-            var was = false;
-            _listeners[name].forEach(function (l) {
-              if (l == obj) was = true;
-            });
-            if (was) return;
-
-            // Allow now only one listener... sorry...
-            if (_listeners[name].length > 0) {
-              _listeners[name][0] = obj;
-            } else {
-              _listeners[name].push(obj);
-            }
-            return o;
-          };
-
-          o.removeListener = function (name, obj) {
-
-            if (!_listeners[name]) return;
-            var list = _listeners[name];
-            var len = list.length;
-            for (var i = 0; i < len; i++) {
-              var oo = list[i];
-              if (oo == obj) {
-                _listeners[name].splice(i, 1);
-                break;
-              }
-            }
-            return o;
-          };
-
-          var _popZStart = 2;
-          o.popZ = function () {
-            return _popZStart++;
-          };
-
           o.addEventListener = function (dom, en, fn) {
-
-            en = en.toLowerCase();
-
-            if (dom.attachEvent) {
-              dom.attachEvent("on" + en, fn);
-            } else {
-              dom.addEventListener(en, fn);
-            }
+            dom.addEventListener(en.toLowerCase(), fn);
             return true;
           };
 
@@ -8606,11 +8450,11 @@
               e.cancelBubble = true;
               e.returnValue = false;
 
-              _dragVector.mx = _mouse.x;
-              _dragVector.my = _mouse.y;
-              _dragVector.dx = _mouse.x - _dragVector.sx;
-              _dragVector.dy = _mouse.y - _dragVector.sy;
-              if (_dragItem) _dragItem.trigger("drag", _dragVector);
+              _dv.mx = _mouse.x;
+              _dv.my = _mouse.y;
+              _dv.dx = _mouse.x - _dv.sx;
+              _dv.dy = _mouse.y - _dv.sy;
+              if (_dragItem) _dragItem.trigger("drag", _dv);
             }
           });
 
@@ -8622,7 +8466,7 @@
           o.dragMouseUp = function () {
             if (_dragItem) {
               // enddrag
-              _dragItem.trigger("enddrag", _dragVector);
+              _dragItem.trigger("enddrag", _dv);
             }
             _dragging = false;
             _dragItem = null;
@@ -8653,17 +8497,17 @@
               // console.log("Could start drag");
               var off = e.offset();
               o.setDragged(e);
-              _dragVector.sx = _mouse.x;
-              _dragVector.sy = _mouse.y;
-              _dragVector.mx = _mouse.x;
-              _dragVector.my = _mouse.y;
-              _dragVector.dx = 0;
-              _dragVector.dy = 0;
-              _dragVector.x = off.left;
-              _dragVector.y = off.top;
+              _dv.sx = _mouse.x;
+              _dv.sy = _mouse.y;
+              _dv.mx = _mouse.x;
+              _dv.my = _mouse.y;
+              _dv.dx = 0;
+              _dv.dy = 0;
+              _dv.x = off.left;
+              _dv.y = off.top;
               found = true;
-              e.trigger("startdrag", _dragVector);
-              //console.log(_dragVector);
+              e.trigger("startdrag", _dv);
+
               return true;
             }
           };
@@ -8682,69 +8526,6 @@
             }
           });
 
-          var _imSending = false;
-          o.send = function (d, vname, event, from) {
-
-            if (_imSending) return; // no circular
-
-            if (!d.__id) {
-              return;
-            }
-
-            _imSending = true;
-            var id = d.__id();
-            var vb = _dataBinds[id];
-
-            if (vb) {
-              var b = vb[vname];
-              if (b) {
-                // console.log(b);
-                b.forEach(function (oo) {
-                  if (oo == from) return;
-                  oo.trigger(event);
-                });
-              }
-            }
-            _imSending = false;
-          };
-
-          o.bind = function (d, vname, obj) {
-
-            if (!d.__id) o.data(d);
-            var id = d.__id();
-            var vb = _dataBinds[id];
-            if (!vb) {
-              _dataBinds[id] = {};
-              vb = _dataBinds[id];
-            }
-
-            var b = vb[vname];
-            if (!b) {
-              vb[vname] = [];
-              b = vb[vname];
-            }
-            var was = false;
-            var dbL = b.length;
-            for (var i = 0; i < dbL; i++) {
-              if (b[i] == obj) return o;
-            }
-            b.push(obj);
-            return o;
-          };
-
-          o.data = function (d) {
-            if (!d.__fn) {
-              _dataId++;
-              var t = (function (_dataId) {
-                d.__id = function () {
-                  return "gd" + _dataId;
-                };
-              })(_dataId);
-              _dataReg[d.__id()] = d;
-            }
-            return d;
-          };
-
           o.draggable = function (e) {
             _draggableItems.push(e);
             e.isHovering();
@@ -8757,37 +8538,36 @@
               var off = me.offset();
 
               var t = e.touch(0);
-              _dragVector.sx = t.startX;
-              _dragVector.sy = t.startY;
-              _dragVector.dx = 0;
-              _dragVector.dy = 0;
-              _dragVector.mx = t.startX;
-              _dragVector.my = t.startY;
-              _dragVector.x = t.startX - off.left;
-              _dragVector.y = t.startY - off.top;
+              _dv.sx = t.startX;
+              _dv.sy = t.startY;
+              _dv.dx = 0;
+              _dv.dy = 0;
+              _dv.mx = t.startX;
+              _dv.my = t.startY;
+              _dv.x = t.startX - off.left;
+              _dv.y = t.startY - off.top;
               _dragging = true;
-              e.trigger("startdrag", _dragVector);
+              e.trigger("startdrag", _dv);
             });
             e.on("touchmove", function () {
-              //e.trigger("msg", "got touchmove");
+
               var t = e.touch(0);
-              //e.trigger("msg", "got touchmove 2");
-              _dragVector.dx = t.dx;
-              _dragVector.dy = t.dy;
-              _dragVector.mx = t.startX + t.dx;
-              _dragVector.my = t.startY + t.dy;
+              _dv.dx = t.dx;
+              _dv.dy = t.dy;
+              _dv.mx = t.startX + t.dx;
+              _dv.my = t.startY + t.dy;
               _dragging = true;
-              e.trigger("drag", _dragVector);
+              e.trigger("drag", _dv);
               //e.trigger("msg", "got touchmove 3");
             });
             e.on("touchend", function () {
 
               var t = e.touch(0);
-              _dragVector.dx = t.dx;
-              _dragVector.dy = t.dy;
-              _dragVector.mx = t.startX + t.dx;
-              _dragVector.my = t.startY + t.dy;
-              e.trigger("enddrag", _dragVector);
+              _dv.dx = t.dx;
+              _dv.dy = t.dy;
+              _dv.mx = t.startX + t.dx;
+              _dv.my = t.startY + t.dy;
+              e.trigger("enddrag", _dv);
               _dragging = false;
             });
           };
