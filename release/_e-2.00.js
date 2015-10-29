@@ -3066,12 +3066,6 @@
       _myTrait_._setDomText = function (elem, text) {
         if (typeof elem.textContent != "undefined") {
           elem.textContent = text;
-        } else {
-          var html = text;
-          var div = document.createElement("div");
-          div.innerHTML = html;
-          var newText = div.innerText || "";
-          elem.innerHTML = newText;
         }
       };
 
@@ -3087,11 +3081,8 @@
           var me = this;
           // TODO: check if we are re-binding two streams on the same element, possible error
           h.onValue(function (t) {
-            //
             me.clear();
             me.add(t);
-            //me._dom.innerHTML = t;
-            //me._html = t;
           });
           return this;
         }
@@ -3123,7 +3114,9 @@
 
         if (typeof t == "undefined") return this._html;
 
-        var args = Array.prototype.slice.call(arguments);
+        var args = new Array(arguments.length);
+        var ii = 0;
+        while (ii < arguments.length) args[ii] = arguments[ii++];
 
         if (args.length > 1) {
 
@@ -3148,12 +3141,6 @@
             t.onValue(function (t) {
               if (me._svgElem || typeof me._dom.textContent != "undefined") {
                 me._dom.textContent = t;
-              } else {
-                var html = t;
-                var div = document.createElement("div");
-                div.innerHTML = html;
-                var newText = div.textContent || div.innerText || "";
-                me._dom.innerHTML = newText;
               }
               me._html = t;
             });
@@ -3181,16 +3168,7 @@
                 me._dom.textContent = v;
               }
             }));
-          } else {
-            oo.me.on(oo.name, me.uniqueListener("text:value", function (o, v) {
-              var html = v;
-              var div = document.createElement("div");
-              div.innerHTML = html;
-              var newText = div.textContent || div.innerText || "";
-              me._dom.innerHTML = newText;
-            }));
           }
-
           if (this._svgElem || typeof this._dom.textContent != "undefined") {
             if (bTSpan) val = val.trim();
             if (bTSpan && (!val || val.length == 0)) {
@@ -3199,25 +3177,12 @@
             } else {
               this._dom.textContent = val;
             }
-          } else {
-
-            var div = document.createElement("div");
-            div.innerHTML = val;
-            var newText = div.textContent || div.innerText || "";
-
-            this._dom.innerHTML = newText;
           }
           return this;
         }
 
         if (this._svgElem || typeof this._dom.textContent != "undefined") {
           this._dom.textContent = t;
-        } else {
-          var html = t;
-          var div = document.createElement("div");
-          div.innerHTML = html;
-          var newText = div.textContent || div.innerText || "";
-          this._dom.innerHTML = newText;
         }
 
         this._html = t;
@@ -7140,7 +7105,6 @@
           } else {
             var i = parseInt(v);
             if (!isNaN(i)) {
-              // this._dom.style.width = i+"px";
               return i + "px";
             }
           }
