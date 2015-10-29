@@ -419,7 +419,6 @@
           }
           ch.removeAllHandlers();
           ch.removeChildEvents();
-          ch.removeControllersFor(ch);
         });
       };
 
