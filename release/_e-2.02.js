@@ -2858,7 +2858,7 @@
               if (bTSpan) v = v.trim();
               // soon.add(me.text, me, v);
               if (bTSpan && (!v || v.length == 0)) {
-                me._dom.textContent = "Â ";
+                me._dom.textContent = " ";
               } else {
                 me._dom.textContent = v;
               }
@@ -2868,7 +2868,7 @@
             if (bTSpan) val = val.trim();
             if (bTSpan && (!val || val.length == 0)) {
               this._dom.textContent = "";
-              me._dom.textContent = "Â ";
+              me._dom.textContent = " ";
             } else {
               this._dom.textContent = val;
             }
@@ -7778,3 +7778,12 @@
   }
 }).call(new Function("return this")());
 
+// should we have named styles... perhaps... TODO
+
+// TODO: error handling postMessage("no instance found");
+
+// --> might send the message back to the worker
+// TODO: send msg back
+
+//console.log("Attr set to ", n);
+//console.trace();

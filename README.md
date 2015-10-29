@@ -1024,8 +1024,6 @@ MIT. Currently use at own risk.
 
 - [child](README.md#_child)
 - [childCount](README.md#_childCount)
-- [domAttrIterator](README.md#_domAttrIterator)
-- [domIterator](README.md#_domIterator)
 - [forChildren](README.md#_forChildren)
 - [forEach](README.md#_forEach)
 - [searchTree](README.md#_searchTree)
@@ -1051,16 +1049,12 @@ MIT. Currently use at own risk.
 - [bacon](README.md#_bacon)
 - [bindSysEvent](README.md#_bindSysEvent)
 - [delegate](README.md#_delegate)
-- [emitValue](README.md#_emitValue)
 - [eventBinder](README.md#_eventBinder)
 - [isHovering](README.md#_isHovering)
 - [namedListener](README.md#_namedListener)
 - [on](README.md#_on)
-- [onValue](README.md#_onValue)
 - [removeAllHandlers](README.md#_removeAllHandlers)
 - [removeListener](README.md#_removeListener)
-- [router](README.md#_router)
-- [setRoute](README.md#_setRoute)
 - [trigger](README.md#_trigger)
 - [uniqueListener](README.md#_uniqueListener)
 
@@ -1074,9 +1068,7 @@ MIT. Currently use at own risk.
 - [bindVal](README.md#InputHandling_bindVal)
 - [blur](README.md#InputHandling_blur)
 - [checked](README.md#InputHandling_checked)
-- [clearOptions](README.md#InputHandling_clearOptions)
 - [focus](README.md#InputHandling_focus)
-- [options](README.md#InputHandling_options)
 - [toBacon](README.md#InputHandling_toBacon)
 - [val](README.md#InputHandling_val)
 
@@ -1117,30 +1109,13 @@ MIT. Currently use at own risk.
     
 ##### trait viewsNavis
 
-- [_refreshView](README.md#viewsNavis__refreshView)
-- [contentRouter](README.md#viewsNavis_contentRouter)
-- [createLayout](README.md#viewsNavis_createLayout)
-- [factoryLoader](README.md#viewsNavis_factoryLoader)
 - [fiddle](README.md#viewsNavis_fiddle)
-- [findViewByName](README.md#viewsNavis_findViewByName)
-- [findViewFactory](README.md#viewsNavis_findViewFactory)
-- [getLayouts](README.md#viewsNavis_getLayouts)
-- [getRole](README.md#viewsNavis_getRole)
-- [getRouteObj](README.md#viewsNavis_getRouteObj)
 - [initScreenEvents](README.md#viewsNavis_initScreenEvents)
-- [layout](README.md#viewsNavis_layout)
 - [onMediaChange](README.md#viewsNavis_onMediaChange)
-- [onRoute](README.md#viewsNavis_onRoute)
-- [pageController](README.md#viewsNavis_pageController)
 - [popView](README.md#viewsNavis_popView)
-- [push](README.md#viewsNavis_push)
 - [pushTo](README.md#viewsNavis_pushTo)
 - [pushView](README.md#viewsNavis_pushView)
-- [removeControllersFor](README.md#viewsNavis_removeControllersFor)
 - [scrollTo](README.md#viewsNavis_scrollTo)
-- [setLayout](README.md#viewsNavis_setLayout)
-- [setRole](README.md#viewsNavis_setRole)
-- [viewFactory](README.md#viewsNavis_viewFactory)
 
 
     
@@ -1152,14 +1127,10 @@ MIT. Currently use at own risk.
 - [clickTo](README.md#mvc_trait_clickTo)
 - [createItemView](README.md#mvc_trait_createItemView)
 - [data](README.md#mvc_trait_data)
-- [findModelFactory](README.md#mvc_trait_findModelFactory)
 - [forwardData](README.md#mvc_trait_forwardData)
 - [fromStream](README.md#mvc_trait_fromStream)
 - [getViewFunction](README.md#mvc_trait_getViewFunction)
 - [model](README.md#mvc_trait_model)
-- [modelFactory](README.md#mvc_trait_modelFactory)
-- [modelFactoryLoader](README.md#mvc_trait_modelFactoryLoader)
-- [mv](README.md#mvc_trait_mv)
 - [mvc](README.md#mvc_trait_mvc)
 - [onMsg](README.md#mvc_trait_onMsg)
 - [send](README.md#mvc_trait_send)
@@ -1867,9 +1838,9 @@ items.forEach(  function(e) {
         // e._creatorFn = creator;
     }    
     
-    if(typeof(e)=="string" || !isNaN(e) ) {
+    if(typeof(e)=="number" || typeof(e)=="string" || !isNaN(e) ) {
         var nd = _e("span");
-        nd._dom.innerHTML = e;
+        nd._dom.innerHTML = e+"";
         me.add(nd);
         return me;
     }
@@ -2724,16 +2695,6 @@ if(this.isStream(v)) {
     return this;
 }
 
-if(this.isFunction(v)) {
-    var oo = v(false, true),
-        me = this;
-    oo.me.on(oo.name, function(o,v) {
-        me.height(v);
-    });
-    this.height( v() );
-    return this;
-}
-
 if(v=="auto"){
     this._dom.style.height = v;
     this._h = v;
@@ -2769,16 +2730,8 @@ return this;
 var o = _e().absolute();
 var _eg = this.__singleton();
 
-
-
 // the max z-index for this layer...
 o._dom.zIndex = zIndex || 100000;
-/*
-if(startFn) this.on("startdrag", startFn);
-if(middleFn) this.on("drag", middleFn);
-if(endFn) this.on("enddrag", endFn);
-
-*/
 
 if(preventAll) {
     o.addClass("Hoverlayer");
@@ -2898,21 +2851,6 @@ if(this.isStream(v)) {
 }
 
 
-//console.log("Width = > ", v);
-if(this.isFunction(v)) {
-    //console.log("Function ",v());
-    var oo = v(false, true),
-        me = this;
-    //console.log(oo);
-    //console.log(oo.me.on);
-    oo.me.on(oo.name, function(o,v) {
-        me.width(v);
-    });
-
-    this.width( v() );
-    return this;
-}
-
 if(v=="auto"){
     this._dom.style.width = v;
     this._w = v;
@@ -2957,20 +2895,6 @@ if(this.isStream(v)) {
 
 
 if(typeof(v)!="undefined") {
-    if(this._svgElem) {
-        var t = this.getTransform();
-        
-        if(!this._y) this._y = 0;
-        if(!this._x) this._x = 0;
-        var dx = v - this._x;
-        this._x = v;
-        if(dx != 0) { 
-            t.translate(dx, 0);
-            this.q.attr("transform", t.getSvgTransform());
-            this.trigger("x");
-        }
-        return this;
-    }
     this.q.css("left", v+"px");
     this._x = v;
     this.trigger("x");
@@ -2997,20 +2921,6 @@ if(this.isStream(v)) {
 }
 
 if(typeof(v)!="undefined") {
-    if(this._svgElem) {
-        var t = this.getTransform();
-        
-        if(!this._y) this._y = 0;
-        if(!this._x) this._x = 0;
-        var dy = v - this._y;
-        this._y = v;
-        if(dy != 0) { 
-            t.translate(0, dy);
-            this.q.attr("transform", t.getSvgTransform());
-            this.trigger("y");
-        }
-        return this;
-    }    
     this.q.css("top", v+"px");
     this._y = v;
     this.trigger("y");
@@ -3397,18 +3307,7 @@ me.on("width", function() {
 me.on("height", function() {
     me._resetProjection( options, true );
 })
-/*
-testDiv3.drag( function(dv) {
-  var box = body.offset();
-  // the offset is required though...
-  console.log(testDiv3.offset());
-  var point = totalMatrix.dragTransformation( dv, { 
-            screenWidth : 4000, 
-            screenHeight: 3000, 
-            perspective:101133300, offset : {
-                x: box.left, y : box.top}
-            } );
-*/
+
 ```
 
 ### <a name="_setTransformMatrix"></a>::setTransformMatrix(m3d, use3D)
@@ -3533,23 +3432,17 @@ this.addItem(row);
 
 row.addClass("row"+this._children.length);
 
-if(!( Object.prototype.toString.call(items) === '[object Array]')) {
-    items = Array.prototype.slice.call(arguments, 0);
-} 
-
+var itemList = items;
+if(!this.isArray(items)) {
+    var len = arguments.length;
+    var ii=0;
+    itemList = new Array(len);
+    while(ii<len) itemList[ii] = arguments[ii++];
+}
 
 var colIndex=0, me = this;
-items.forEach(function(ii) {
-    var cell = new _e("td");
-    cell._dom.setAttribute("valign", "top");
-    if(me.isObject(ii)) {
-        cell.add( ii );
-    } else {
-        cell.text(ii);
-    }
-    row.addItem( cell );
-    cell.addClass("col"+colIndex);
-    colIndex++;
+itemList.forEach(function(ii) {
+    row.td("col"+(colIndex++), {"valign" : "top"}).add( ii );
 });
 return this;  
 ```
@@ -3571,10 +3464,8 @@ The class has following internal singleton variables:
 if(this._contentObj) {
     return this._contentObj.child.apply(this._contentObj, Array.prototype.slice.call(arguments));
 }
+return this._children[i];
 
-if(this._children[i]) {
-   return this._children[i];
-}
 ```
 
 ### <a name="_childCount"></a>::childCount(t)
@@ -3588,61 +3479,6 @@ if(this._contentObj) {
 
 if(!this._children) return 0;
 return this._children.length
-```
-
-### <a name="_domAttrIterator"></a>::domAttrIterator(elem, fn)
-
-
-*The source code for the function*:
-```javascript
-
-if(!elem) return;
-if(!elem.attributes) return;
-
-for (var i = 0; i < elem.attributes.length; i++) {
-  var attrib = elem.attributes[i];
-  if (attrib.specified) {
-      fn(attrib.name, attrib.value);
-  }
-}
-```
-
-### <a name="_domIterator"></a>::domIterator(elem, fn, nameSpace)
-
-
-*The source code for the function*:
-```javascript
-
-if(!elem) return;
-
-var noRecurse = {
-    "textarea" : true
-};
-
-
-var childNodes = elem.childNodes;
-if(childNodes) {
-  var len = childNodes.length;
-  for (var i = 0; i < len ; i++) {
-     var child = childNodes[i];
-     if(child.tagName=="svg") nameSpace = "svg";
-     if(child) {
-         var bStop = fn(child, nameSpace);
-         if(bStop) {
-             // console.log("**** SHOULD NOT ITERATE CHILDREN *****");
-         } else {
-             var bFullElem = child instanceof HTMLElement;
-             if(bFullElem) {
-                 var tN = child.tagName.toLowerCase();
-                 if(!noRecurse[tN])
-                     this.domIterator( child, fn, nameSpace );
-             }
-         }
-         
-     }
-  }    
-}
-
 ```
 
 ### <a name="_forChildren"></a>::forChildren(fn, recursive)
@@ -3674,8 +3510,7 @@ if(this._contentObj) {
 
 if(this._children) 
     this._children.forEach( function(c) {
-        fn(c);
-        // c.forChildren(fn);
+        fn(c);   
     });
 ```
 
@@ -3801,8 +3636,6 @@ return this;
 
 The class has following internal singleton variables:
         
-* _routes
-        
 * _touchClick
         
 * _outInit
@@ -3840,41 +3673,23 @@ if(this._sys[en]) return false;
 this._sys[en] = true;
 
 var me = this;
-
-if(this._dom.attachEvent) {
-    if(!stop) {
-        this._dom.attachEvent("on"+en, fn); 
-    } else {
-        this._dom.attachEvent("on"+en, function(e) {
+if(!stop) {
+    this._dom.addEventListener(en, fn);
+} else {
+    this._dom.addEventListener(en, function(e) {
             e = e || window.event;
             me._event = e;
-            fn();
             if(stop) {
-                e = window.event;
-                if(e) e.cancelBubble = true;
-            }
-            });        
-    }
-
-} else {
-    if(!stop) {
-        this._dom.addEventListener(en, fn);
-    } else {
-        this._dom.addEventListener(en, function(e) {
-                e = e || window.event;
-                me._event = e;
-                if(stop) {
-                    if(e && e.stopPropagation) {
-                        e.stopPropagation();
-                    } else {
-                       e = window.event;
-                       e.cancelBubble = true;
-                    }
+                if(e && e.stopPropagation) {
+                    e.stopPropagation();
+                } else {
+                   e = window.event;
+                   e.cancelBubble = true;
                 }
+            }
             fn();
-            });
-    }
-}                
+        });
+}
 return true;
 ```
 
@@ -3889,43 +3704,13 @@ this._delegates.push(myDelecate);
 
 ```
 
-### <a name="_emitValue"></a>::emitValue(scope, data)
-
-
-*The source code for the function*:
-```javascript
-if(this._controller) {
-    if(this._controller[scope]) {
-       this._controller[scope](data);
-       return;
-    }
-}
-
-if(this._valueFn && this._valueFn[scope]) {
-    this._valueFn[scope](data);
-} else {
-    if(this._parent) this._parent.emitValue(scope,data);
-}
-```
-
 ### <a name="_eventBinder"></a>::eventBinder(dom, eventName, fn, stop)
 
 
 *The source code for the function*:
 ```javascript
 var me = this;
-if(dom.attachEvent) {
-    dom.attachEvent("on"+eventName, function(e) {
-        e = e || window.event;
-        me._event = e;
-        fn();
-        if(stop) {
-            e = window.event;
-            if(e) e.cancelBubble = true;
-        }
-        });
-} else {
-    dom.addEventListener(eventName, function(e) {
+dom.addEventListener(eventName, function(e) {
         e = e || window.event;
         me._event = e;
         if(stop) {
@@ -3937,8 +3722,8 @@ if(dom.attachEvent) {
             }
         }
         fn();
-        });
-}  
+    });
+ 
 ```
 
 ### <a name="_isHovering"></a>::isHovering(t)
@@ -3988,7 +3773,7 @@ Binds event name to event function
 *The source code for the function*:
 ```javascript
 if(this._contentObj) {
-    return this._contentObj.on.apply(this._contentObj, Array.prototype.slice.call(arguments));
+    return this._contentObj.on( en, ef );
 }
 
 if(!this._ev) this._ev = {};
@@ -4070,8 +3855,6 @@ if(en=="checked") {
     
 if(en=="value") {
     this.bindSysEvent("change", function() {
-        
-        
         if(me._type=="checkbox") {
             if(me._dom.checked) {
                 me._checked = true;
@@ -4126,67 +3909,33 @@ if(en=="blur") {
 }
 
 if(en=="mouseenter") {
-    if(this._dom.attachEvent) {
-        this.bindSysEvent("mouseenter", function(e) {
-                e = e || window.event;
-                if(me._hover) return;
-                me._event = e;
-                me._hover = true;
-                me.trigger("mouseenter");
-            });
-        this.bindSysEvent("mouseleave", function(e) {
-                e = e || window.event;
-                if(!me._hover) return;
-                me._event = e;
-                me._hover = false;
-                me.trigger("mouseleave");
-        });
-    } else {
 
-        this.bindSysEvent("mouseover", function(e) {
-                 e = e || window.event;
-                if(me._hover) return;
-                me._hover = true;
-                me._event = e;
-                if(me._parent) {
-                    if(!me._parent._hover) {
-                        me._parent.trigger("mouseenter");
-                    }
-                    // me._parent._childHover = true;
+    this.bindSysEvent("mouseover", function(e) {
+             e = e || window.event;
+            if(me._hover) return;
+            me._hover = true;
+            me._event = e;
+            if(me._parent) {
+                if(!me._parent._hover) {
+                    me._parent.trigger("mouseenter");
                 }
-                // console.log("Mouse over xxx");
-                me.trigger("mouseenter");
-            });
-        this.bindSysEvent("mouseout", function(e) {
-                if(!me._hover) return;
-                
-                var childHover = false;
-                me.forChildren( function(c) { if(c._hover) childHover = true; });
-                
-                if(childHover) return;
-                
-                me._hover = false;
-
-                me.trigger("mouseleave");
-            });                        
-        
-    }
-
-        
+            }
+            me.trigger("mouseenter");
+        });
+    this.bindSysEvent("mouseout", function(e) {
+            if(!me._hover) return;
+            
+            var childHover = false;
+            me.forChildren( function(c) { if(c._hover) childHover = true; });
+            
+            if(childHover) return;
+            me._hover = false;
+            me.trigger("mouseleave");
+        });                        
+ 
 }
 
 return this;
-```
-
-### <a name="_onValue"></a>::onValue(scope, fn)
-
-
-*The source code for the function*:
-```javascript
-if(!this._valueFn) {
-    this._valueFn = {};
-}
-this._valueFn[scope] = fn;
 ```
 
 ### <a name="_removeAllHandlers"></a>::removeAllHandlers(t)
@@ -4251,62 +4000,14 @@ if(this._ev && this._ev[eventName]) {
 }
 ```
 
-### <a name="_router"></a>::router(eventName, fn)
-
-
-*The source code for the function*:
-```javascript
-
-var me = this;
-this._dom.addEventListener(eventName, function(event) {
-    var elem = event.target;
-    if(!elem) return;
-    var routeId = elem.getAttribute("data-routeid");
-    if(routeId) {
-        var obj = _routes[routeId];
-        if(obj) fn(obj);
-    }
-});
-```
-
-### <a name="_setRoute"></a>::setRoute(obj, recursive)
-
-
-*The source code for the function*:
-```javascript
-
-var routeId = this.guid();
-this._dom.setAttribute("data-routeid", routeId);
-if(!_routes) _routes = {}
-if(recursive) {
-    this.forChildren( function(ch) {
-        ch.setRoute( obj, recursive );
-    });
-}
-_routes[routeId] = obj;
-```
-
 ### <a name="_trigger"></a>::trigger(en, data, fn)
 
 triggers event with data and optional function
 *The source code for the function*:
 ```javascript
 
-//TODO vaihda kaikki Array.prototype.slice.call -> alla olevaan koodiin
-/*
-  var len = arguments.length - 1
-  var args = new Array(len)
-
-  // V8 optimization
-  // https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
-
-  for (var i = 0; i < len; i++) {
-    args[i] = arguments[i + 1]
-  }
-
-*/
 if(this._contentObj) {
-    return this._contentObj.trigger.apply(this._contentObj, Array.prototype.slice.call(arguments));
+    return this._contentObj.trigger(en, data, fn);
 }
 
 if(this._delegates) {
@@ -4530,10 +4231,7 @@ if(this._contentObj) {
 }
 
 if(typeof(v)=="undefined") {
-
-    // if(typeof( this._checked)=="undefined") {
     this._checked = this._dom.checked;
-    // this.trigger("value");
     return this._checked;
 }
 
@@ -4547,19 +4245,6 @@ if( (nowOn && !v) || (!nowOn && v) ){
 return this;
 ```
 
-### <a name="InputHandling_clearOptions"></a>InputHandling::clearOptions(t)
-
-
-*The source code for the function*:
-```javascript
- if(this._dataList) {
-    var node = this._dataList._dom;
-    if(node.parentNode) node.parentNode.removeChild(node);
-    this._options = {};
-    this._dataList = null;
-}    
-```
-
 ### <a name="InputHandling_focus"></a>InputHandling::focus(t)
 
 Focus into this element
@@ -4569,57 +4254,6 @@ if(this._contentObj) {
     return this._contentObj.focus();
 }
 if(this._dom.focus) this._dom.focus();
-```
-
-### <a name="InputHandling_options"></a>InputHandling::options(list)
-
-
-*The source code for the function*:
-```javascript
-// creates the input options for html5 usage...
-
-if(this._tag=="input") {
-    if(this._dataList) {
-        var node = this._dataList._dom;
-        if(node.parentNode) node.parentNode.removeChild(node);
-        this._options = {};
-        this._dataList = null;
-    }
-    if(!this._dataList) {
-        this._options = {};
-        this._dataList = _e("datalist");
-        this._dataListId = this.guid();
-        this._dataList.q.attr("id", this._dataListId);
-        // console.log("DATA", list);
-        if( Object.prototype.toString.call( list ) === '[object Array]' ) {
-            var me = this;
-            list.forEach( function(n) {
-                var opt = _e("option");
-                opt.q.attr("value", n);
-                opt.text( n );
-                me._options[n] = opt;
-                me._dataList.add( opt );
-            });
-        } else {
-             for( var n in list ) {
-                if(this._options[n]) continue;
-                if(list.hasOwnProperty(n)) {
-                    var opt = _e("option");
-                    opt.q.attr("value", n);
-                    opt.text( list[n] );
-                    this._options[n] = opt;
-                    this._dataList.add( opt );
-                }
-            }                           
-        }
-
-        this.q.attr("list", this._dataListId);
-        if(document.body) {
-            document.body.appendChild( this._dataList._dom );
-        }
-    } 
-}
-return this;
 ```
 
 ### <a name="InputHandling_toBacon"></a>InputHandling::toBacon(transformFn)
@@ -4668,9 +4302,7 @@ if(typeof(v)=="undefined"){
 
 if(typeof(this._dom.value)!="undefined" || this._type=="option") {
     this._dom.value = v;
-} else {
-    // this._dom.innerHTML = v;
-}
+} 
 
 this._value = v;
 this.trigger("value", v);
@@ -4714,16 +4346,15 @@ Some of the methods have shortcuts
 // _elemNames
 if(_elemInit) return;
 _elemInit = true;
-var _elemNames = ["a", "b", "h1","h2","h3","h4","h5","h6","button","checkbox",
+
+var es = ["a", "b", "h1","h2","h3","h4","h5","h6","button","checkbox",
 "div","form","img","input","label","li","ol","p","pre","span","strong","table","textarea","ul","video"];
 
-for(var n in _elemNames) {
-    if(_elemNames.hasOwnProperty(n)) {
-        _myTrait_[n] = function(n, className, attrs) {
-            return this.shortcutFor(n, className, attrs);
-        }
-    }
-}
+es.forEach( function(n) {
+    _myTrait_[n] = function(className, attrs, c,d,e) {
+        return this.shortcutFor(n, className, attrs,c,d,e);
+    }    
+});
 ```
 
 ### <a name="domShortcuts_attr"></a>domShortcuts::attr(v, v2)
@@ -5058,13 +4689,7 @@ The class has following internal singleton variables:
 ```javascript
 if( typeof(elem.textContent)!="undefined") {
    elem.textContent = text;
-} else {
-   var html = text;
-   var div = document.createElement("div");
-   div.innerHTML = html;
-   var newText = div.innerText || "";
-   elem.innerHTML = newText;    
-}
+} 
 ```
 
 ### <a name="domContent_html"></a>domContent::html(h)
@@ -5080,11 +4705,8 @@ if(this.isStream(h)) {
     var me = this;
     // TODO: check if we are re-binding two streams on the same element, possible error
     h.onValue( function(t) {
-        // 
         me.clear();
         me.add( t );
-        //me._dom.innerHTML = t;
-        //me._html = t;
     });
     return this;
 }
@@ -5117,7 +4739,9 @@ if(this._contentObj) {
 
 if(typeof(t)=="undefined") return this._html;
 
-var args = Array.prototype.slice.call(arguments);
+var args = new Array( arguments.length );
+var ii=0;
+while(ii < arguments.length) args[ii] = arguments[ii++];
 
 if(args.length > 1 ) {
 
@@ -5141,13 +4765,7 @@ if(this.isObject(t)) {
         t.onValue( function(t) {
             if(me._svgElem || typeof(me._dom.textContent)!="undefined") {
                me._dom.textContent = t;
-            } else {
-               var html = t;
-               var div = document.createElement("div");
-               div.innerHTML = html;
-               var newText = div.textContent || div.innerText || "";
-               me._dom.innerHTML = newText;    
-            }
+            } 
             me._html = t;
         });
         return this;
@@ -5170,21 +4788,11 @@ if(this.isFunction(t)) {
             // soon.add(me.text, me, v);
             if(bTSpan && (!v || v.length==0) ) {
                 me._dom.textContent = '\u00A0';
-               
             } else {
                 me._dom.textContent = v;
             }
          }));         
-    } else {
-        oo.me.on(oo.name, me.uniqueListener("text:value",function(o,v) {
-            var html = v;
-            var div = document.createElement("div");
-            div.innerHTML = html;
-            var newText = div.textContent || div.innerText || "";        
-            me._dom.innerHTML = newText;
-        }));        
-    }
-        
+    }   
     if(this._svgElem || typeof(this._dom.textContent)!="undefined") {
         if(bTSpan) val = val.trim(); 
         if(bTSpan && (!val || val.length==0) ) {
@@ -5193,26 +4801,13 @@ if(this.isFunction(t)) {
         } else {
             this._dom.textContent = val;
         }
-    } else {
-    
-        var div = document.createElement("div");
-        div.innerHTML = val;
-        var newText = div.textContent || div.innerText || "";    
-        
-        this._dom.innerHTML = newText;
-    }
+    } 
     return this;
 }
 
 if(this._svgElem || typeof(this._dom.textContent)!="undefined") {
    this._dom.textContent = t;
-} else {
-   var html = t;
-   var div = document.createElement("div");
-   div.innerHTML = html;
-   var newText = div.textContent || div.innerText || "";
-   this._dom.innerHTML = newText;    
-}
+} 
 
 this._html = t;
 return this;
@@ -5242,185 +4837,9 @@ The class has following internal singleton variables:
         
 * _transitionOn
         
-* _pageViews
-        
-* _pageControllers
-        
-* _ctrlObjs
-        
-* _viewStructures
-        
-* _contentRouters
-        
-* _viewFactory
-        
-* _viewCache
-        
 * _dynamicFactory
         
         
-### <a name="viewsNavis__refreshView"></a>viewsNavis::_refreshView(oldObj)
-
-
-*The source code for the function*:
-```javascript
-
-if(!oldObj) oldObj = this;
-
-// The object should have _refreshView property
-if(!oldObj._refeshView) return;
-
-/*
-    obj._refeshView = {
-        name : name,
-        factoryName : name,
-        paramName : paramName,
-        view : view
-    }
-*/
-var currentRole = oldObj.getRole();
-
-// the original view where the object was pushed into
-var view = oldObj._refeshView.view;
-if(!view) {
-    return;
-}
-if(!_viewCache) _viewCache = {};
-
-var obj, wf;
-var me = this, cache_key;
-var factoryName = oldObj._refeshView.factoryName,
-    paramName = oldObj._refeshView.paramName,
-    activeLayout = oldObj._refreshView.activeLayout;
-    
-if(!paramName) paramName = "";
-
-if(this.isObject( factoryName) ) {
-    obj = factoryName;
-    cache_key = currentRole+"."+factoryName+"."+paramName;
-} else {
-    
-    // find the view factory...
-    wf = this.findViewFactory( factoryName, currentRole );
-    
-    // factory function object has the cache
-    if(wf && !wf._viewCache) wf._viewCache = {};
-
-    // views with same params will be cached
-    cache_key = currentRole+"."+factoryName+"."+paramName;
-
-    if(wf) {
-        if(wf._viewCache[cache_key]) {
-            obj = wf._viewCache[cache_key];
-        } else {
-            var f = wf;
-            if(f) {
-                obj = f( paramName );
-                if(obj) {
-                    wf._viewCache[cache_key] = obj;
-                }
-            }
-        }
-    }
-}
-
-if(obj) {
-    
-    //if(!activeLayout.parts) activeLayout.parts = {};
-    //activeLayout.parts[name] = view;
-    
-    // view = the div or element the object created by the factory is pushed into
-    // for example "top" in layout top 100% | content 100%
-    // view.pushView( obj );
-    
-    // --- not using the "pushView"
-    oldObj.replaceWith( obj );
-    
-    // to emulate React.js behaviour...
-    if(obj.componentDidMount) {
-        obj.componentDidMount();
-    }
-    obj.trigger("mount");
-    
-    // in case the view should be refreshed with some other 
-    obj._refeshView = oldObj._refeshView;
-
-    if(wf && wf._dynamic && !wf._binded) {
-        wf._binded = true;
-        wf._dynamic.on("body", function(o,v) {
-            try {
-                var newF = new Function(v);
-                var newObj = newF( paramName );
-                if(newObj) {
-                    obj.replaceWith( newObj );
-                    obj = newObj;
-                    
-                    wf._container._viewFactory[factoryName] = newF;
-                    if(newF && !newF._viewCache) newF._viewCache = {};
-                    newF._viewCache[cache_key] = newObj;
-                }
-            } catch(e) {
-                
-            }
-        });
-    }
-}
-```
-
-### <a name="viewsNavis_contentRouter"></a>viewsNavis::contentRouter(name, fn)
-
-
-*The source code for the function*:
-```javascript
-
-if(!_contentRouters) _contentRouters  = {};
-if(this.isFunction(name)) {
-    _contentRouters["default"] = name;
-} else {
-    _contentRouters[name] = fn;
-}
-```
-
-### <a name="viewsNavis_createLayout"></a>viewsNavis::createLayout(name, fn)
-
-
-*The source code for the function*:
-```javascript
-if(!_viewStructures) _viewStructures = {}
-
-var holder = _e();
-var view;
-if(this.isFunction(fn)) {
-   view = fn();
-} else {
-   view = fn;
-}
-
-_viewStructures[name] = {
-    view : view,
-    viewHolder : holder
-}
-```
-
-### <a name="viewsNavis_factoryLoader"></a>viewsNavis::factoryLoader(data)
-
-This is very opinionated function to load _data from some store
-*The source code for the function*:
-```javascript
-
-// load the factories from the _data()
-var me = this;
-return data.then( function(res) {
-    data.forTree( function(t) {
-        if(t.get("type")=="function") {
-            var wf = new Function(t.get("body") );
-            wf._dynamic = t;
-            me.viewFactory( t.get("name"), wf );
-        }            
-    });
-});
-```
-
 ### <a name="viewsNavis_fiddle"></a>viewsNavis::fiddle(options)
 
 
@@ -5463,161 +4882,16 @@ if(options.html) html+=options.html;
 if(options.jsCode) html+=decodeURIComponent("%3Cscript%3E")+options.jsCode+decodeURIComponent("%3C%2Fscript%3E");
 html+="</body></html>";
 this.addItem(iframe);
-
-iframe._dom.contentWindow.document.open();
-iframe._dom.contentWindow.document.write(html);
-iframe._dom.contentWindow.document.close();    
+var contWinDoc  = iframe._dom.contentWindow.document;
+contWinDoc.open();
+contWinDoc.write(html);
+contWinDoc.close();    
 
 iframe.width(options.width || 800).height(options.height || 600);
 
 return this;
 ```
 
-### <a name="viewsNavis_findViewByName"></a>viewsNavis::findViewByName(name, layout)
-
-
-*The source code for the function*:
-```javascript
-
-if(layout.hasClass(name)) {
-    return layout;
-} else {
-    var o = null, i=0, ch;
-    
-    while( ch = layout.child( i++ )) {
-        if(ch.hasClass(name)) return ch;
-    }
-    i=0;
-    while( ch = layout.child( i++ )) {
-        var res = ch.findViewByName(name, ch);
-        if(res) return res;
-    }    
-    // console.log("could not find ", name, " from layout");
-}
-```
-
-### <a name="viewsNavis_findViewFactory"></a>viewsNavis::findViewFactory(name, role)
-
-
-*The source code for the function*:
-```javascript
-
-if(!role) {
-    role = this.getRole();
-    if(!role) role = "default";
-}
-
-if(this._viewFactory && this._viewFactory[role]) {
-    var ff = this._viewFactory[role][name];
-    if(ff) {
-        return ff;
-    }
-}
-var p = this.parent();
-if(p) return p.findViewFactory(name, role);
-
-if(_viewFactory[role]) {
-    return _viewFactory[role][name];
-}
-
-return null;
-```
-
-### <a name="viewsNavis_getLayouts"></a>viewsNavis::getLayouts(t)
-
-
-*The source code for the function*:
-```javascript
-return _viewStructures;
-```
-
-### <a name="viewsNavis_getRole"></a>viewsNavis::getRole(t)
-
-
-*The source code for the function*:
-```javascript
-if(this._role) {
-    return this._role;
-}
-var p = this.parent();
-if(p) return p.getRole();
-```
-
-### <a name="viewsNavis_getRouteObj"></a>viewsNavis::getRouteObj(t)
-
-
-*The source code for the function*:
-```javascript
-var parts = document.location.hash.split("/");
-
-var toParamsObj = function(a) {
-    var o = {};
-    for(var i=0; i<a.length;i+=2) o[a[i]] = a[i+1]; 
-    return o;
-}
-return {
-        hash : document.location.hash,
-        parts : parts.slice(),
-        controller : parts.shift().substring(1),
-        action : parts.shift(),
-        params : toParamsObj( parts ),
-        rest : parts
-     };
-```
-
-### viewsNavis::constructor( t )
-
-```javascript
-
-if(!_eventState) {
-    var me = this;
-    this.eventBinder(window, "hashchange", function() {
-        if( ("#"+_eventState.lastSetValue) ==  document.location.hash) return;
-        if(_eventState.pushing) return;
-        
-        _eventState.routers.forEach( function(fn) {
-             fn(me.getRouteObj());
-        });
-    });
-    _eventState = {
-        inited : true,
-        routers : []
-    }
-    _pageViews = {};
-    _ctrlObjs = [];
-    _pageControllers = [];
-    this.onRoute( function(r) {
-        // console.log("on route with ", r);
-        _ctrlObjs.forEach( function(obj) {
-            var pc = obj._pageController;
-            var rFn = pc[r.controller] || pc["default"];
-            if(rFn) {
-                // console.log("pageController ", rFn);
-                var action = rFn.ctrl[r.action] || rFn.ctrl["default"];
-                // console.log("action ", action);
-                if(action) {
-                    action.apply( rFn.canvas, [ r.params, rFn.canvas, r ] );
-                }
-            }
-
-        });
-    });
-    /*
-{
-  "hash": "#frontpage/",
-  "parts": [
-    "#frontpage",
-    ""
-  ],
-  "controller": "frontpage",
-  "action": "",
-  "params": {},
-  "rest": []
-}    
-    */
-}
-```
-        
 ### <a name="viewsNavis_initScreenEvents"></a>viewsNavis::initScreenEvents(t)
 
 
@@ -5716,73 +4990,6 @@ if(window.matchMedia) {
 }
 ```
 
-### <a name="viewsNavis_layout"></a>viewsNavis::layout(layoutName, layoutDef)
-
-
-*The source code for the function*:
-```javascript
-if(this._contentObj) {
-    return this._contentObj.layout.apply(this._contentObj, Array.prototype.slice.call(arguments));
-}
-
-if(!layoutDef) {
-    layoutDef = layoutName;
-    layoutName = this.guid();
-}
-
-// -> how to define the layout
-// o.layout("top 100% | bottom 100% " );
-// top 100% | left 20%, content 80% | bottom 100%
-/*
-var o _e();
-    o.div("icon");
-    o.div("title");
-    o.div("else");
-return o;
-*/
-
-// --> maybe some day this might be possible, but not now...
-// "top 100% | left 20% ( leftTools | leftTree | leftBottom ), content 80% | bottom 100% "
-
-var vParts = layoutDef.split("|");
-
-var base = _e();
-vParts.forEach( function(pDef) {
-    
-    var row = base.div(); // <-- or the factory name...
-    pDef.split(",").forEach( function(layItem) {
-        
-        layItem = layItem.trim();
-        var parts = layItem.split(" ");
-        var partName = parts[0];
-        
-        // => the layout item using just a CSS class etc.
-        var elem = row.div(partName);
-        elem._dom.style.display = "inline-block";
-        elem._dom.style.verticalAlign = "top";
-        
-        if(parts.length>1) {
-            parts.shift();
-            var prosStr = parts.join(""); // 10% => 10
-            elem.width(prosStr);
-        } else {
-            
-        }
-    });
-    
-})
-this.createLayout( layoutName, base );
-this.setLayout( layoutName );
-
-// ==> should set the layout object here...
-
-return this;
-
-// => returns the layout object to modify the layout if necessary...
-
-
-```
-
 ### <a name="viewsNavis_onMediaChange"></a>viewsNavis::onMediaChange(fn)
 
 
@@ -5790,39 +4997,6 @@ return this;
 ```javascript
 
 _mediaListeners.push(fn);
-```
-
-### <a name="viewsNavis_onRoute"></a>viewsNavis::onRoute(fn)
-
-
-*The source code for the function*:
-```javascript
-
-_eventState.routers.push(fn);
-var me = this;
-later().add( 
-    function() {
-        fn(me.getRouteObj());
-    } );
-
-```
-
-### <a name="viewsNavis_pageController"></a>viewsNavis::pageController(page, controllerObj)
-
-
-*The source code for the function*:
-```javascript
-
-if(!this._pageController) this._pageController = {};
-
-this._pageController[page] = {
-    ctrl : controllerObj,
-    canvas : this
-};
-
-if(_ctrlObjs.indexOf( this ) < 0) {
-    _ctrlObjs.push(this);
-};
 ```
 
 ### <a name="viewsNavis_popView"></a>viewsNavis::popView(toView)
@@ -5895,29 +5069,6 @@ cont.forChildren(function(ch) {
 });
 
 
-
-```
-
-### <a name="viewsNavis_push"></a>viewsNavis::push(model, viewName)
-
-
-*The source code for the function*:
-```javascript
-if(this._contentObj) {
-    return this._contentObj.push.apply(this._contentObj, Array.prototype.slice.call(arguments));
-}
-var fn = this.findViewFactory(viewName);
-if(fn) {
-    var modelId;
-    if(model.getID) {
-        modelId = model.getID();
-    } else {
-        modelId = model;
-    }
-    var newView = fn.apply( null, [modelId] );
-    this.pushView( newView );
-}
-return this;
 
 ```
 
@@ -6055,6 +5206,7 @@ if(!this._views) {
     this._views = [];
 }
 
+if(!_eventState) _eventState = {};
 if(newView == this) return;
 if(newView == lastView) return;
 
@@ -6090,7 +5242,8 @@ if(window) {
 var showP = true,
     hadChildren = false,
     me = this;
- 
+
+/* 
 this.onValue("pushView", function(v) {
     me.pushView(v);
 });   
@@ -6098,6 +5251,7 @@ this.onValue("pushView", function(v) {
 this.onValue("popView", function(toView) {
     me.popView(toView);
 });
+*/
 
 lastView = this;
 
@@ -6154,18 +5308,6 @@ _eventState.pushing = false;
 return this;
 ```
 
-### <a name="viewsNavis_removeControllersFor"></a>viewsNavis::removeControllersFor(o)
-
-
-*The source code for the function*:
-```javascript
-var i = _ctrlObjs.indexOf( o );
-
-if(i>=0) {
-    _ctrlObjs.splice(i, 1);
-}
-```
-
 ### <a name="viewsNavis_scrollTo"></a>viewsNavis::scrollTo(yPosition, xPosition)
 `yPosition` Given y scroll position
  
@@ -6219,92 +5361,6 @@ if(window) {
 return this;
 ```
 
-### <a name="viewsNavis_setLayout"></a>viewsNavis::setLayout(name)
-
-
-*The source code for the function*:
-```javascript
-if(this._contentObj) {
-    return this._contentObj.setLayout.apply(this._contentObj, Array.prototype.slice.call(arguments));
-}
-
-var me = this;
-// ok, need to think about how to create this thing
-if(_viewStructures && _viewStructures[name]) {
-    
-    var layout = _viewStructures[name];
-    
-    if(this._activeLayout == layout) return this;
-    
-    this._activeLayout = layout;
-    this._children.length = 0;
-    this._children[0] = layout.view;
-    layout.view._parent = this;
-    if(this._dom.firstChild ) this._dom.removeChild( this._dom.firstChild );
-    this._dom.appendChild( layout.view._dom );
-
-}
-```
-
-### <a name="viewsNavis_setRole"></a>viewsNavis::setRole(name)
-
-The role the user interface is currently at
-*The source code for the function*:
-```javascript
-
-if(this._role && this._role != name) {
-    this._role = name;
-    // update subviews to correspond this role view...
-    this._refreshView();
-    this.forChildren( function(ch) {
-        ch._refreshView();
-    }, true);
-} else {
-    this._role = name;
-}
-
-```
-
-### <a name="viewsNavis_viewFactory"></a>viewsNavis::viewFactory(role, name, fn)
-
-one could call it like 
-o.viewFactory("children", "messages", function() {
-
-});
-*The source code for the function*:
-```javascript
-
-if(this.isFunction(name)) {
-    fn = name;
-    name = role;
-    role = "default";
-}
-
-if(!_viewFactory) _viewFactory = {};
-if(!_viewFactory[role]) _viewFactory[role] = {};
-
-if(!this._viewFactory) this._viewFactory = {};
-if(!this._viewFactory[role]) this._viewFactory[role] = {};
-
-var me = this;
-this._viewFactory[role][name] = function(id) {
-    if(me.isObject(id)) {
-        return fn( id.getID() );
-    } else {
-        return fn(id);
-    }
-}
-_viewFactory[role][name] = function(id) {
-    if(me.isObject(id)) {
-        return fn( id.getID() );
-    } else {
-        return fn(id);
-    }
-}
-fn._container = this;
-
-```
-
 
     
     
@@ -6313,13 +5369,9 @@ fn._container = this;
 
 The class has following internal singleton variables:
         
-* _modelTemplates
-        
 * _viewContent
         
 * _viewTemplates
-        
-* _namedModels
         
 * _namedViews
         
@@ -6415,24 +5467,6 @@ if(typeof(v) != "undefined") {
 return this.__mdata;
 ```
 
-### <a name="mvc_trait_findModelFactory"></a>mvc_trait::findModelFactory(name)
-
-
-*The source code for the function*:
-```javascript
-
-if(this._modelFactory) {
-    var ff = this._modelFactory[name];
-    if(ff) {
-        return ff;
-    }
-}
-var p = this.parent();
-if(p) return p.findModelFactory(name);
-
-return null;
-```
-
 ### <a name="mvc_trait_forwardData"></a>mvc_trait::forwardData(dataObj, variables, filterFn)
 
 for example   window.forwardData( winDefData, "x,y, w => width, h => height, title=>text");
@@ -6519,128 +5553,12 @@ for(var n in this._view) {
 
 ```
         
-### <a name="mvc_trait_model"></a>mvc_trait::model(name, params)
+### <a name="mvc_trait_model"></a>mvc_trait::model(t)
 
 
 *The source code for the function*:
 ```javascript
-
-if(!name) {
-    return this.state();
-}
-
-var me = this;
-return _promise( function(result, reject) {
-    
-    var getModel = function() {
-            // returns the function which creates the view
-            var wf = me.findModelFactory( name );
-            
-            if(wf) {
-                // could have functions etc.
-                if(!wf._obj) wf._obj = {};
-                var bAutoCache = wf._autoCache;
-                var key = params || "undefined";
-                try {
-                    if(bAutoCache) {
-                        if(wf._obj._autoCache) {
-                            var cachedModel = wf._obj._autoCache[key];
-                            if(cachedModel) {
-                                result({ model : cachedModel });
-                                return;
-                            }
-                        }
-                    }                    
-                    wf.apply(wf._obj, [params, function(resModel) {
-                        if(bAutoCache) {
-                            if(!wf._obj._autoCache) wf._obj._autoCache = {};
-                            wf._obj._autoCache[key] = resModel;
-                        }
-                        result({ model : resModel });
-                    }, reject]);
-                } catch(e) {
-                    reject(e);
-                }
-                
-            } else {
-                reject({ reason : "not found"});
-            }
-        };
-    if(me.parent()) {
-        getModel();
-    } else {
-        me.on("parent", getModel);
-    }
-});
-
-```
-
-### <a name="mvc_trait_modelFactory"></a>mvc_trait::modelFactory(name, fn, autoCache)
-
-
-*The source code for the function*:
-```javascript
-
-if(!this._modelFactory) this._modelFactory = {};
-
-this._modelFactory[name] = fn;
-fn._container = this;
-fn._autoCache = autoCache;
-```
-
-### <a name="mvc_trait_modelFactoryLoader"></a>mvc_trait::modelFactoryLoader(data)
-
-
-*The source code for the function*:
-```javascript
-// load the factories from the _data()
-var me = this;
-return data.then( function(res) {
-    data.forTree( function(t) {
-        if(t.get("type")=="function") {
-            var wf = new Function(t.get("body") );
-            wf._dynamic = t;
-            me.modelFactory( t.get("name"), wf );
-        }            
-    });
-});
-```
-
-### <a name="mvc_trait_mv"></a>mvc_trait::mv(model, type, controller)
-
-
-*The source code for the function*:
-```javascript
-if(this._contentObj) {
-    return this._contentObj.mv.apply(this._contentObj, Array.prototype.slice.call(arguments));
-}
-var o, fn, elemName = "div";
-if(this.isFunction(type)) {
-    fn = type;
-} else {
-    if(this.isFunction(controller)) {
-        elemName = type;
-        fn = controller;
-    } else {
-        if(typeof(type) == "string") {
-            fn = this.findViewFactory(type);
-            if(fn) {
-                var newItem = fn.apply( null, [model] );
-                this.add( newItem );
-            }
-            return this;
-        }
-    }
-}
-
-if(fn) {
-    this.mvc( model, function(item) {
-        var o = _e(elemName);
-        fn.apply( o, [item] );
-        return o; 
-    });
-}
-
+return this.state();
 ```
 
 ### <a name="mvc_trait_mvc"></a>mvc_trait::mvc(model, view, controller)
@@ -7379,6 +6297,7 @@ if(!colors) {
         "pink":"#ffc0cb","purple":"#800080",
         "red":"#ff0000","turquoise":"#40e0d0",
         "violet":"#ee82ee", "white":"#ffffff",
+        "skyblue":"#87ceeb",
         "yellow":"#ffff00"};
 }
 ```
@@ -8138,7 +7057,7 @@ if(_ajaxHook && _ajaxHook[url]) {
             }
         }
     } catch(e) {
-        errCallback(e);
+        if(errCallback)  errCallback(e);
     }
     return this;
 }
@@ -8501,16 +7420,6 @@ if(options.webWorkers && this.isObject(options.webWorkers) && this._workersAvail
 }
 this._addCustomTagFn(elemName);
 
-/*
-_e().createClass({
-    webWorkers : {
-        hello : function(data, callback) {
-            
-        }
-    }
-})
-*/
-
 ```
 
 ### <a name="_getRegisteredClasses"></a>::getRegisteredClasses(t)
@@ -8858,15 +7767,7 @@ return new p(
         prom.then( function() {
             success(true);
         })
-        // first.resolve(true);
-        /*
-        me._callWorker(_worker, "/", "createClass",  {
-            className: className,
-            code: me._serializeClass(classObj)
-        }, function( result ) {
-            success( result ); 
-        });
-        */
+
 });
 ```
 
@@ -9022,7 +7923,7 @@ for(var n in this._attributes) {
 
 if(this._tag == "input" || this._tag == "textarea") {
     if(elem._value != this._value) {
-        // do we patch inputs ?
+
     }
 } else {
     if(elem._children.length === 0) {
@@ -9403,7 +8304,6 @@ if(typeof(v)=="string") {
 } else {
     var i = parseInt(v);
     if(!isNaN(i)) {
-        // this._dom.style.width = i+"px";
         return i+"px";
     }
 }
@@ -9462,17 +8362,6 @@ The class has following internal singleton variables:
 *The source code for the function*:
 ```javascript
 _easings = { 
-    bounceOut : function(t){
-        if (t < 1/2.75) {
-            return (7.5625*t*t);
-        } else if (t < 2/2.75) {
-            return (7.5625*(t-=1.5/2.75)*t+0.75);
-        } else if (t < 2.5/2.75) {
-            return (7.5625*(t-=2.25/2.75)*t+0.9375);
-        } else {
-            return (7.5625*(t-=2.625/2.75)*t +0.984375);
-        }
-    },
     easeIn : function(t) {
         return t*t;
     },
@@ -9482,9 +8371,6 @@ _easings = {
     easeInOut : function(t) {
         if(t < 0.5) return t*t;
         return -1*t*(t-2);
-    },
-    easeInCirc : function(t) {
-        return -1*(Math.sqrt(1 -t*t) - 1);
     },
     easeInCubic : function(t) {
         return t*t*t;
@@ -9536,7 +8422,7 @@ _easings[name] = fn;
 ```javascript
 
 if(!name) {
-    name = "aft7491_"+(_localCnt++);
+    name = "aft_"+(_localCnt++);
 }
 
 _everies[name] = {
@@ -9816,13 +8702,9 @@ The class has following internal singleton variables:
 ```javascript
 var o = {}, args;
 if(this.isArray(objectList)) {
-    args = objectList;
+  args = objectList;
 } else {
-  var len = arguments.length;
-  var args = new Array(len);
-  for (var i = 0; i < len; i++) {
-    args[i] = arguments[i];
-  }
+  args = Array.prototype.slice.call(arguments);
 }
 args.forEach(function(rules) {
             for(var n in rules) {
@@ -10103,16 +8985,6 @@ return mediaObj;
 *The source code for the function*:
 ```javascript
 // TODO: consider how the if media rules need to be given using this function 
-/*
-var mediaList = [];
-if( this._mediaHash ) {
-    for(var n in this._mediaHash) {
-        if(this._mediaHash.hasOwnProperty(n)) {
-            
-        }
-    }
-}*/
-
 for(var n in this._data) {
     if(this._data.hasOwnProperty(n)) {
         fn.apply(this, [n, this._assign( this._data[n]) ] );
@@ -10186,19 +9058,6 @@ if(!_virtualSize) _virtualSize = 0;
 if(!window.atob && document.all) {
     _IE9Limits = true;
 }
-
-/*
-head = document.getElementsByTagName('head')[0];
-var styleTag = document.createElement('style');
-styleTag.setAttribute('type', 'text/css');
-if (styleTag.styleSheet) {   // IE
-    styleTag.styleSheet.cssText = "";
-} else {                // the world
-    styleTag.appendChild(document.createTextNode(""));
-}
-head.appendChild(styleTag);      
-this._styleTag = styleTag;
-*/
 
 this._virtualTagId = _virtualSize++;
 _virtualTags[this._virtualTagId] = ""; // make it string to support array join
@@ -10342,9 +9201,6 @@ return str;
 *The source code for the function*:
 ```javascript
 
-    
-// console.log(cssText);
-    
 try {
     if(_IE9Limits) {
         // if the styletag does not exist create it for IE9
@@ -10382,18 +9238,6 @@ try {
             styleTag.removeChild(old);
         }
     }
-/*
-head = document.getElementsByTagName('head')[0];
-var styleTag = document.createElement('style');
-styleTag.setAttribute('type', 'text/css');
-if (styleTag.styleSheet) {   // IE
-    styleTag.styleSheet.cssText = "";
-} else {                // the world
-    styleTag.appendChild(document.createTextNode(""));
-}
-head.appendChild(styleTag);      
-this._styleTag = styleTag;
-*/
 
 } catch(e) {
     if(console && console.log) console.log(e.message, cssText);
