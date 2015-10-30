@@ -648,6 +648,7 @@
         this.on("touchstart", function (o, dv) {
           o.trigger("click");
         });
+        return this;
       };
 
       /**
