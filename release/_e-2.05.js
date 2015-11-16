@@ -2152,8 +2152,8 @@
           return this;
         }
 
-        var _ee_ = this.__singleton();
-        _ee_.bind(obj, varName, this);
+        // var _ee_ = this.__singleton();
+        // _ee_.bind(obj, varName, this);
         var o = this;
         this.on("value", function () {
           if (obj) {
