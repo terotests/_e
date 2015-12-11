@@ -5008,7 +5008,9 @@
                 var dataObj = JSON.parse(msg.data.data);
                 eval("newClass = " + dataObj.code);
                 this._classes[dataObj.className] = newClass;
-                this._classStatics[dataObj.className] = {};
+                if (!this._classStatics[dataObj.className]) {
+                  this._classStatics[dataObj.className] = {};
+                }
                 postMessage({
                   cbid: msg.data.cbid,
                   data: "Done"
