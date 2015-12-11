@@ -4669,6 +4669,7 @@
               }
             }
           }
+          // TODO: implement static variable storage for non-web worker classes
         }
 
         var objProperties = baseData || attrObj || {};
@@ -4742,6 +4743,9 @@
                   }
                 }
               }
+              elem.sendHandler("setStaticVar", function (params, callback) {
+                self._callObject(elem._workerObjId, "setStaticVar", params, callback);
+              });
             });
           }
 
