@@ -5028,6 +5028,8 @@
 
                   // public function for the UI process to update a static variable
                   o_instance.setStaticVar = function (setData, cb) {
+                    console.log("setStaticVar ");
+                    console.log(setData);
                     if (typeof setData != "object") getData = JSON.parse(setData);
                     if (setData.name) {
                       o_instance._statics[setData.name] = setData.value;
